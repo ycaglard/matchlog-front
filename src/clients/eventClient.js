@@ -187,7 +187,25 @@ export const getEventsByTeamName = async (teamName) => {
 }
 
 /**
+ * Get authorization headers with token
+ * @returns {Object} Headers object with Authorization if token exists
+ */
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('matchlog_auth_token')
+  const headers = {
+    'Content-Type': 'application/json'
+  }
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
+  }
+  
+  return headers
+}
+
+/**
  * Create a new comment for an event
+ * Requires authentication - JWT token must be present
  * @param {Object} commentData - Comment data
  * @param {string} commentData.text - Comment text
  * @param {number} commentData.userId - User ID
@@ -198,9 +216,7 @@ export const createComment = async (commentData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/comments`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify({
         text: commentData.text,
         userId: commentData.userId,

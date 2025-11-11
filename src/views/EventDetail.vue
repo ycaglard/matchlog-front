@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useEventClient } from '../clients/eventClient.js'
+import { authStore } from '../store/authStore.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -12,8 +13,9 @@ const newCommentText = ref('')
 const isSubmitting = ref(false)
 const commentError = ref(null)
 
-// TODO: Replace with actual logged-in user ID from authentication
-const currentUserId = ref(1) // Hardcoded for now
+// Get current user ID from auth store
+const currentUserId = computed(() => authStore.user?.id || null)
+const currentUsername = computed(() => authStore.user?.username || 'User')
 
 // Fetch event details when component mounts
 onMounted(async () => {
@@ -59,6 +61,12 @@ const goBack = () => {
 }
 
 const handleSubmitComment = async () => {
+  // Check if user is authenticated
+  if (!currentUserId.value) {
+    commentError.value = 'You must be logged in to comment'
+    return
+  }
+
   if (!newCommentText.value.trim()) {
     commentError.value = 'Comment text cannot be empty'
     return
