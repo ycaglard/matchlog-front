@@ -4,6 +4,19 @@
       <div class="navbar-brand">
         <router-link to="/" class="brand-link">MatchLog</router-link>
       </div>
+      
+      <!-- Search Bar in Navbar -->
+      <div class="navbar-search">
+        <SearchBar 
+          :suggestions="suggestions"
+          :isLoadingSuggestions="isLoadingSuggestions"
+          @input="handleInput"
+          @search="handleSearch" 
+          @clear="handleClearSearch"
+          @select-event="handleSelectEvent"
+        />
+      </div>
+      
       <ul class="nav-links" :class="{ 'mobile-open': mobileMenuOpen }">
         <li>
           <router-link to="/" @click="toggleMobileMenu">Home</router-link>
@@ -49,15 +62,68 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import SearchBar from './SearchBar.vue'
 import { authStore, clearUser } from '../store/authStore.js'
 import { logout } from '../clients/authClient.js'
+import { useEventClient } from '../clients/eventClient.js'
 
 const router = useRouter()
 const mobileMenuOpen = ref(false)
 const userMenuOpen = ref(false)
 
+// Search state
+const suggestions = ref([])
+const isLoadingSuggestions = ref(false)
+let debounceTimer = null
+
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 const currentUser = computed(() => authStore.user)
+
+// Initialize event client
+const { searchEvents } = useEventClient()
+
+// Handle input changes for suggestions with debouncing
+const handleInput = (query) => {
+  // Clear existing timer
+  if (debounceTimer) {
+    clearTimeout(debounceTimer)
+  }
+
+  // Set new timer
+  debounceTimer = setTimeout(async () => {
+    if (query && query.length >= 2) {
+      try {
+        isLoadingSuggestions.value = true
+        const results = await searchEvents(query, 5)
+        suggestions.value = results
+      } catch (err) {
+        console.error('Failed to fetch suggestions:', err)
+        suggestions.value = []
+      } finally {
+        isLoadingSuggestions.value = false
+      }
+    } else {
+      suggestions.value = []
+    }
+  }, 300)
+}
+
+// Handle search - navigate to home with search
+const handleSearch = (teamName) => {
+  suggestions.value = []
+  router.push({ path: '/', query: { team: teamName } })
+}
+
+// Handle clear search
+const handleClearSearch = () => {
+  suggestions.value = []
+}
+
+// Handle suggestion selection
+const handleSelectEvent = (eventId) => {
+  suggestions.value = []
+  router.push(`/event/${eventId}`)
+}
 
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value
@@ -105,18 +171,20 @@ onMounted(() => {
 }
 
 .navbar-container {
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 64px;
+  gap: 2rem;
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .brand-link {
@@ -129,6 +197,13 @@ onMounted(() => {
 
 .brand-link:hover {
   opacity: 0.8;
+}
+
+.navbar-search {
+  flex: 1;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
 }
 
 .nav-links {
@@ -311,6 +386,18 @@ onMounted(() => {
 @media (max-width: 768px) {
   .navbar-container {
     padding: 0 1rem;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 64px;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .navbar-search {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-top: 0.75rem;
   }
 
   .mobile-menu-toggle {

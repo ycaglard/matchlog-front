@@ -1,29 +1,72 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import EventCard from '../components/EventCard.vue'
 import FriendEventCard from '../components/FriendEventCard.vue'
 import NewsCard from '../components/NewsCard.vue'
 import { useEventClient } from '../clients/eventClient.js'
 
 const router = useRouter()
+const route = useRoute()
 
 // Events data from backend
 const events = ref([])
+const isSearchActive = ref(false)
+const searchedTeamName = ref('')
 
 // Initialize event client with loading and error states
-const { loading, error, getEvents: fetchEvents } = useEventClient()
+const { loading, error, getEventsByDateRange, getEventsByTeamName } = useEventClient()
 
 // Fetch events from backend on component mount
 onMounted(async () => {
+  // Check if there's a team query parameter from navbar search
+  if (route.query.team) {
+    await handleSearch(route.query.team)
+  } else {
+    await loadUpcomingEvents()
+  }
+})
+
+// Watch for route query changes (from navbar search)
+watch(() => route.query.team, (teamName) => {
+  if (teamName) {
+    handleSearch(teamName)
+  } else {
+    loadUpcomingEvents()
+  }
+})
+
+// Load upcoming events (next 7 days)
+const loadUpcomingEvents = async () => {
   try {
-    const eventsData = await fetchEvents()
+    // Calculate today and 7 days from now
+    const today = new Date()
+    const sevenDaysLater = new Date()
+    sevenDaysLater.setDate(today.getDate() + 7)
+    
+    // Fetch events in the next 7 days
+    const eventsData = await getEventsByDateRange(today, sevenDaysLater)
     events.value = eventsData
-    console.log('Events loaded from backend:', eventsData)
+    isSearchActive.value = false
+    searchedTeamName.value = ''
+    console.log('Events loaded from backend (next 7 days):', eventsData)
   } catch (err) {
     console.error('Failed to fetch events:', err)
   }
-})
+}
+
+// Handle search by team name
+const handleSearch = async (teamName) => {
+  try {
+    const eventsData = await getEventsByTeamName(teamName)
+    events.value = eventsData
+    isSearchActive.value = true
+    searchedTeamName.value = teamName
+    console.log('Events loaded for team:', teamName, eventsData)
+  } catch (err) {
+    console.error('Failed to search events:', err)
+  }
+}
 
 // Friend-logged events data
 const friendEvents = ref([
@@ -167,8 +210,13 @@ const handleViewDetails = (event) => {
     </div>
     
     <section class="events-section">
-      <h1 class="section-title">Upcoming Events</h1>
-      <div class="events-grid">
+      <h1 class="section-title">
+        {{ isSearchActive ? `Events for "${searchedTeamName}"` : 'Upcoming Events' }}
+      </h1>
+      <div v-if="events.length === 0 && !loading" class="no-results">
+        {{ isSearchActive ? 'No events found for this team.' : 'No upcoming events in the next 7 days.' }}
+      </div>
+      <div class="events-grid" v-else>
         <EventCard
           v-for="event in events"
           :key="event.id"
@@ -292,6 +340,16 @@ const handleViewDetails = (event) => {
   margin-bottom: 1rem;
   text-align: center;
   font-weight: 500;
+}
+
+.no-results {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 1.125rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 2px dashed #d1d5db;
 }
 </style>
 

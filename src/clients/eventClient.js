@@ -187,6 +187,69 @@ export const getEventsByTeamName = async (teamName) => {
 }
 
 /**
+ * Get events by date range
+ * @param {string|Date} startDate - Start date in format 'yyyy-MM-dd' or Date object
+ * @param {string|Date} endDate - End date in format 'yyyy-MM-dd' or Date object
+ * @returns {Promise<EventDTO[]>} List of events within the specified date range
+ */
+export const getEventsByDateRange = async (startDate, endDate) => {
+  try {
+    // Convert Date objects to strings if needed
+    const formatDate = (date) => {
+      if (date instanceof Date) {
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+      }
+      return date
+    }
+    
+    const startDateString = formatDate(startDate)
+    const endDateString = formatDate(endDate)
+    
+    const response = await fetch(`${API_BASE_URL}/api/events/daterange?startDate=${startDateString}&endDate=${endDateString}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    const data = await handleResponse(response)
+    return Array.isArray(data) ? data.map(parseEventDTO) : []
+  } catch (error) {
+    console.error('Error fetching events by date range:', error)
+    throw error
+  }
+}
+
+/**
+ * Search events by query string
+ * @param {string} query - Search query string
+ * @param {number} [limit=10] - Maximum number of results to return (default: 10)
+ * @returns {Promise<EventDTO[]>} List of matching events
+ */
+export const searchEvents = async (query, limit = 10) => {
+  try {
+    const encodedQuery = encodeURIComponent(query)
+    const url = `${API_BASE_URL}/api/events/search?query=${encodedQuery}&limit=${limit}`
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+    const data = await handleResponse(response)
+    return Array.isArray(data) ? data.map(parseEventDTO) : []
+  } catch (error) {
+    console.error('Error searching events:', error)
+    throw error
+  }
+}
+
+/**
  * Get authorization headers with token
  * @returns {Object} Headers object with Authorization if token exists
  */
@@ -238,6 +301,8 @@ export default {
   getEventsByDate,
   getEventById,
   getEventsByTeamName,
+  getEventsByDateRange,
+  searchEvents,
   createComment
 }
 
@@ -275,6 +340,8 @@ export const useEventClient = () => {
     getEventsByDate: (date) => executeWithLoading(() => getEventsByDate(date)),
     getEventById: (id) => executeWithLoading(() => getEventById(id)),
     getEventsByTeamName: (teamName) => executeWithLoading(() => getEventsByTeamName(teamName)),
+    getEventsByDateRange: (startDate, endDate) => executeWithLoading(() => getEventsByDateRange(startDate, endDate)),
+    searchEvents: (query, limit) => executeWithLoading(() => searchEvents(query, limit)),
     createComment: (commentData) => executeWithLoading(() => createComment(commentData))
   }
 }
