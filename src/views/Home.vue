@@ -1,29 +1,29 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import EventCard from '../components/EventCard.vue'
+import MatchCard from '../components/MatchCard.vue'
 import FriendEventCard from '../components/FriendEventCard.vue'
 import NewsCard from '../components/NewsCard.vue'
-import { useEventClient } from '../clients/eventClient.js'
+import { useMatchClient, searchMatchesLocal } from '../clients/matchClient.js'
 
 const router = useRouter()
 const route = useRoute()
 
-// Events data from backend
-const events = ref([])
+// Matches data from backend
+const matches = ref([])
 const isSearchActive = ref(false)
 const searchedTeamName = ref('')
 
-// Initialize event client with loading and error states
-const { loading, error, getEventsByDateRange, getEventsByTeamName } = useEventClient()
+// Initialize match client with loading and error states
+const { loading, error, getTodayMatches } = useMatchClient()
 
-// Fetch events from backend on component mount
+// Fetch matches from backend on component mount
 onMounted(async () => {
   // Check if there's a team query parameter from navbar search
   if (route.query.team) {
     await handleSearch(route.query.team)
   } else {
-    await loadUpcomingEvents()
+    await loadTodayMatches()
   }
 })
 
@@ -32,39 +32,37 @@ watch(() => route.query.team, (teamName) => {
   if (teamName) {
     handleSearch(teamName)
   } else {
-    loadUpcomingEvents()
+    loadTodayMatches()
   }
 })
 
-// Load upcoming events (next 7 days)
-const loadUpcomingEvents = async () => {
+// Load today's matches
+const loadTodayMatches = async () => {
   try {
-    // Calculate today and 7 days from now
-    const today = new Date()
-    const sevenDaysLater = new Date()
-    sevenDaysLater.setDate(today.getDate() + 7)
-    
-    // Fetch events in the next 7 days
-    const eventsData = await getEventsByDateRange(today, sevenDaysLater)
-    events.value = eventsData
+    // Use the dedicated today endpoint
+    const matchesData = await getTodayMatches()
+    matches.value = matchesData
     isSearchActive.value = false
     searchedTeamName.value = ''
-    console.log('Events loaded from backend (next 7 days):', eventsData)
+    console.log('Matches loaded from backend (today):', matchesData)
   } catch (err) {
-    console.error('Failed to fetch events:', err)
+    console.error('Failed to fetch matches:', err)
   }
 }
 
-// Handle search by team name
+// Handle search by team name (client-side filtering since API requires team ID)
 const handleSearch = async (teamName) => {
   try {
-    const eventsData = await getEventsByTeamName(teamName)
-    events.value = eventsData
+    // First load all today's matches
+    const allMatches = await getTodayMatches()
+    // Then filter client-side by team name
+    const filteredMatches = searchMatchesLocal(allMatches, teamName)
+    matches.value = filteredMatches
     isSearchActive.value = true
     searchedTeamName.value = teamName
-    console.log('Events loaded for team:', teamName, eventsData)
+    console.log('Matches loaded for team:', teamName, filteredMatches)
   } catch (err) {
-    console.error('Failed to search events:', err)
+    console.error('Failed to search matches:', err)
   }
 }
 
@@ -190,10 +188,10 @@ const tournamentNews = ref([
   }
 ])
 
-// Handle event card click - navigate to event detail page
-const handleViewDetails = (event) => {
-  console.log('Navigating to event detail:', event.id)
-  router.push(`/event/${event.id}`)
+// Handle match card click - navigate to match detail page
+const handleViewDetails = (match) => {
+  console.log('Navigating to match detail:', match.id)
+  router.push(`/match/${match.id}`)
 }
 </script>
 
@@ -201,7 +199,7 @@ const handleViewDetails = (event) => {
   <main class="main-content">
     <!-- Loading indicator -->
     <div v-if="loading" class="loading-indicator">
-      Loading events...
+      Loading matches...
     </div>
     
     <!-- Error message -->
@@ -211,16 +209,16 @@ const handleViewDetails = (event) => {
     
     <section class="events-section">
       <h1 class="section-title">
-        {{ isSearchActive ? `Events for "${searchedTeamName}"` : 'Upcoming Events' }}
+        {{ isSearchActive ? `Matches for "${searchedTeamName}"` : "Today's Matches" }}
       </h1>
-      <div v-if="events.length === 0 && !loading" class="no-results">
-        {{ isSearchActive ? 'No events found for this team.' : 'No upcoming events in the next 7 days.' }}
+      <div v-if="matches.length === 0 && !loading" class="no-results">
+        {{ isSearchActive ? 'No matches found for this team.' : 'No matches scheduled for today.' }}
       </div>
       <div class="events-grid" v-else>
-        <EventCard
-          v-for="event in events"
-          :key="event.id"
-          :event="event"
+        <MatchCard
+          v-for="match in matches"
+          :key="match.id"
+          :match="match"
           @view-details="handleViewDetails"
         />
       </div>

@@ -65,7 +65,7 @@ import { useRouter } from 'vue-router'
 import SearchBar from './SearchBar.vue'
 import { authStore, clearUser } from '../store/authStore.js'
 import { logout } from '../clients/authClient.js'
-import { useEventClient } from '../clients/eventClient.js'
+import { useMatchClient, searchMatchesLocal } from '../clients/matchClient.js'
 
 const router = useRouter()
 const mobileMenuOpen = ref(false)
@@ -79,8 +79,8 @@ let debounceTimer = null
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 const currentUser = computed(() => authStore.user)
 
-// Initialize event client
-const { searchEvents } = useEventClient()
+// Initialize match client
+const { getUpcomingMatches } = useMatchClient()
 
 // Handle input changes for suggestions with debouncing
 const handleInput = (query) => {
@@ -94,8 +94,10 @@ const handleInput = (query) => {
     if (query && query.length >= 2) {
       try {
         isLoadingSuggestions.value = true
-        const results = await searchEvents(query, 5)
-        suggestions.value = results
+        // Fetch upcoming matches and filter client-side
+        const allMatches = await getUpcomingMatches()
+        const filtered = searchMatchesLocal(allMatches, query)
+        suggestions.value = filtered.slice(0, 5) // Limit to 5 suggestions
       } catch (err) {
         console.error('Failed to fetch suggestions:', err)
         suggestions.value = []
@@ -120,9 +122,9 @@ const handleClearSearch = () => {
 }
 
 // Handle suggestion selection
-const handleSelectEvent = (eventId) => {
+const handleSelectEvent = (matchId) => {
   suggestions.value = []
-  router.push(`/event/${eventId}`)
+  router.push(`/match/${matchId}`)
 }
 
 const toggleMobileMenu = () => {

@@ -103,7 +103,7 @@ const formatDate = (date) => {
         v-model="searchQuery"
         type="text"
         class="search-input"
-        placeholder="Search events by team name..."
+        placeholder="Search matches by team name..."
         @keydown="handleKeyDown"
         @blur="closeSuggestions"
       />
@@ -156,18 +156,18 @@ const formatDate = (date) => {
         >
           <div class="suggestion-content">
             <div class="suggestion-teams">
-              <span class="team-name">{{ suggestion.match?.home?.name }}</span>
+              <span class="team-name">{{ suggestion.homeTeam?.name }}</span>
               <span class="vs">vs</span>
-              <span class="team-name">{{ suggestion.match?.away?.name }}</span>
+              <span class="team-name">{{ suggestion.awayTeam?.name }}</span>
             </div>
             <div class="suggestion-meta">
-              <span class="event-type">{{ suggestion.eventType }}</span>
-              <span class="event-date">{{ formatDate(suggestion.date) }}</span>
+              <span class="event-type">{{ suggestion.competition?.name }}</span>
+              <span class="event-date">{{ formatDate(suggestion.utcDate) }}</span>
             </div>
           </div>
         </div>
         <div v-if="!isLoadingSuggestions && suggestions.length === 0" class="suggestion-item no-results">
-          No events found
+          No matches found
         </div>
       </div>
     </div>

@@ -1,0 +1,2 @@
+1) There is no more event in api, now we're passing around matches.
+2) The matches are stored in a document with each information attached, no more relations between models.

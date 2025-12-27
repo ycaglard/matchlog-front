@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import EventDetail from '../views/EventDetail.vue'
+import MatchDetail from '../views/MatchDetail.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import { isAuthenticated } from '../clients/authClient.js'
@@ -30,9 +30,9 @@ const routes = [
     meta: { requiresGuest: true }
   },
   {
-    path: '/event/:id',
-    name: 'EventDetail',
-    component: EventDetail,
+    path: '/match/:id',
+    name: 'MatchDetail',
+    component: MatchDetail,
     meta: { requiresAuth: true }
   }
 ]

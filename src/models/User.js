@@ -5,7 +5,7 @@ export class User {
   /**
    * Create a new User instance
    * @param {Object} data - User data
-   * @param {number} data.id - User ID
+   * @param {string} data.id - User ID (MongoDB ObjectId)
    * @param {string} data.username - Username
    * @param {string} data.email - User email
    * @param {string[]} [data.roles] - User roles for authorization
@@ -13,7 +13,7 @@ export class User {
    * @param {Date|string} [data.createdAt] - Account creation date
    */
   constructor(data = {}) {
-    this.id = data.id || null
+    this.id = data.id || ''
     this.username = data.username || ''
     this.email = data.email || ''
     this.roles = data.roles || ['USER']
