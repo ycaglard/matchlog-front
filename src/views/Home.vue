@@ -292,16 +292,17 @@ const handleViewDetails = (match) => {
 
 .events-grid::-webkit-scrollbar-track {
   background: #f1f1f1;
+  background: rgba(73, 77, 83, 0.7);
   border-radius: 10px;
 }
 
 .events-grid::-webkit-scrollbar-thumb {
-  background: #1e3a8a;
+  background: #6b7280;
   border-radius: 10px;
 }
 
 .events-grid::-webkit-scrollbar-thumb:hover {
-  background: #1e40af;
+  background: #9ca3af;
 }
 
 @media (max-width: 768px) {
