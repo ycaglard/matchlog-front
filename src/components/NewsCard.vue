@@ -8,7 +8,26 @@
       <p class="news-excerpt">{{ news.excerpt }}</p>
       <div class="news-meta">
         <span class="news-date">{{ formatDate(news.date) }}</span>
-        <span class="news-category">{{ news.category }}</span>
+        <span class="news-category">
+          <template v-if="news.category === 'Football'">
+            <img src="/icons/football.png" alt="Football" class="news-icon" />
+          </template>
+          <template v-else-if="news.category === 'Multi-Sport'">
+            <img src="/icons/multisport.png" alt="Multi-Sport" class="news-icon" />
+          </template>
+          <template v-else-if="news.category === 'Tennis'">
+            <img src="/icons/tennis.png" alt="Tennis" class="news-icon" />
+          </template>
+          <template v-else-if="news.category === 'Basketball'">
+            <img src="/icons/basketball.png" alt="Basketball" class="news-icon" />
+          </template>
+          <template v-else-if="news.category === 'Volleyball'">
+            <img src="/icons/volleyball.png" alt="Volleyball" class="news-icon" />
+          </template>
+          <template v-else>
+          </template>
+          {{ news.category }}
+        </span>
       </div>
     </div>
   </div>
@@ -120,6 +139,13 @@ const formatDate = (dateString) => {
   background: #eff6ff;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
+}
+
+.news-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 0.4em;
 }
 
 @media (prefers-color-scheme: dark) {

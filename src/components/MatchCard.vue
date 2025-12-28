@@ -144,6 +144,7 @@ const getStatusClass = () => {
 .team-info {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
 }
 
@@ -158,7 +159,6 @@ const getStatusClass = () => {
   font-size: 0.875rem;
   font-weight: 600;
   color: #1e3a8a;
-  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
