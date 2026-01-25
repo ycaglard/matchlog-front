@@ -152,7 +152,8 @@ const getStatusClass = () => {
 .team-info {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .team-crest {
@@ -165,8 +166,7 @@ const getStatusClass = () => {
 .team-name {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1f2937;
-  flex: 1;
+  color: #1e3a8a;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

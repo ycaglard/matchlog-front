@@ -368,19 +368,20 @@ const handleViewDetails = (match) => {
   height: 8px;
 }
 
-.matches-carousel::-webkit-scrollbar-track {
-  background: #e5e7eb;
+.events-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  background: rgba(73, 77, 83, 0.7);
   border-radius: 10px;
 }
 
-.matches-carousel::-webkit-scrollbar-thumb {
-  background: #1e3a8a;
+.events-grid::-webkit-scrollbar-thumb {
+  background: #6b7280;
   border-radius: 10px;
   transition: background 0.2s ease;
 }
 
-.matches-carousel::-webkit-scrollbar-thumb:hover {
-  background: #1e40af;
+.events-grid::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 /* No Results State */

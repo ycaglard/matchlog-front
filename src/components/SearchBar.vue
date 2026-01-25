@@ -242,6 +242,7 @@ const formatDate = (date) => {
 .search-button {
   display: flex;
   align-items: center;
+  margin-right: 0.15rem;
   gap: 0.375rem;
   padding: 0.4rem 0.4rem;
   background: #1e3a8a;
@@ -251,7 +252,7 @@ const formatDate = (date) => {
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
-  border-radius: 8px;
+  border-radius: 8px 8px 8px 8px;
   white-space: nowrap;
   margin-left: 0.5rem;
   margin-right: 0.4rem;
