@@ -37,34 +37,42 @@ const formatDate = (dateString) => {
 <style scoped>
 .news-card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  width: 350px;
-  min-width: 350px;
+  width: 340px;
+  min-width: 340px;
   flex-shrink: 0;
+  border: 1px solid #e5e7eb;
 }
 
 .news-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: #1e3a8a;
 }
 
 .news-image {
   width: 100%;
-  height: 200px;
+  height: 190px;
   overflow: hidden;
   background: #f3f4f6;
+  position: relative;
 }
 
 .news-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.news-card:hover .news-image img {
+  transform: scale(1.05);
 }
 
 .news-content {
@@ -73,10 +81,11 @@ const formatDate = (dateString) => {
   flex-direction: column;
   gap: 0.75rem;
   flex: 1;
+  background: white;
 }
 
 .news-title {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: #1e3a8a;
   margin: 0;
@@ -85,10 +94,12 @@ const formatDate = (dateString) => {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: -0.2px;
 }
 
 .news-excerpt {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: #6b7280;
   line-height: 1.6;
   margin: 0;
@@ -103,32 +114,44 @@ const formatDate = (dateString) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 0.5rem;
-  border-top: 1px solid #e5e7eb;
+  padding-top: 0.75rem;
+  border-top: 2px solid #e5e7eb;
   margin-top: auto;
 }
 
 .news-date {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #9ca3af;
+  font-weight: 500;
 }
 
 .news-category {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.688rem;
+  font-weight: 700;
   color: #1e3a8a;
   background: #eff6ff;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  padding: 0.375rem 0.875rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 @media (prefers-color-scheme: dark) {
   .news-card {
     background: #1f2937;
+    border-color: #374151;
+  }
+
+  .news-card:hover {
+    border-color: #60a5fa;
   }
 
   .news-image {
     background: #111827;
+  }
+
+  .news-content {
+    background: #1f2937;
   }
 
   .news-title {

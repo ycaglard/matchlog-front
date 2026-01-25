@@ -2,8 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import MatchDetail from '../views/MatchDetail.vue'
+import TeamDetail from '../views/TeamDetail.vue'
+import UserDetail from '../views/UserDetail.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import MyLists from '../views/MyLists.vue'
+import ListDetail from '../views/ListDetail.vue'
 import { isAuthenticated } from '../clients/authClient.js'
 
 const routes = [
@@ -33,6 +37,29 @@ const routes = [
     path: '/match/:id',
     name: 'MatchDetail',
     component: MatchDetail,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/team/:id',
+    name: 'TeamDetail',
+    component: TeamDetail
+  },
+  {
+    path: '/user/:username',
+    name: 'UserDetail',
+    component: UserDetail,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/lists',
+    name: 'MyLists',
+    component: MyLists,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/lists/:id',
+    name: 'ListDetail',
+    component: ListDetail,
     meta: { requiresAuth: true }
   }
 ]

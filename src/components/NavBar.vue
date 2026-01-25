@@ -13,7 +13,7 @@
           @input="handleInput"
           @search="handleSearch" 
           @clear="handleClearSearch"
-          @select-event="handleSelectEvent"
+          @select-team="handleSelectTeam"
         />
       </div>
       
@@ -23,6 +23,12 @@
         </li>
         <li>
           <router-link to="/about" @click="toggleMobileMenu">About</router-link>
+        </li>
+        <li v-if="isAuthenticated">
+          <router-link to="/lists" @click="toggleMobileMenu" class="lists-link">
+            <span class="link-icon">☰</span>
+            My Lists
+          </router-link>
         </li>
         <li v-if="!isAuthenticated">
           <router-link to="/login" @click="toggleMobileMenu" class="login-link">Login</router-link>
@@ -37,7 +43,7 @@
             <span class="dropdown-arrow">▼</span>
           </div>
           <div v-if="userMenuOpen" class="user-dropdown">
-            <div class="dropdown-header">
+            <div class="dropdown-header" @click="goToProfile">
               <div class="dropdown-user-info">
                 <div class="dropdown-username">{{ currentUser?.username }}</div>
                 <div class="dropdown-email">{{ currentUser?.email }}</div>
@@ -65,7 +71,7 @@ import { useRouter } from 'vue-router'
 import SearchBar from './SearchBar.vue'
 import { authStore, clearUser } from '../store/authStore.js'
 import { logout } from '../clients/authClient.js'
-import { useMatchClient, searchMatchesLocal } from '../clients/matchClient.js'
+import { useTeamClient } from '../clients/teamClient.js'
 
 const router = useRouter()
 const mobileMenuOpen = ref(false)
@@ -79,8 +85,8 @@ let debounceTimer = null
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 const currentUser = computed(() => authStore.user)
 
-// Initialize match client
-const { getUpcomingMatches } = useMatchClient()
+// Initialize team client
+const { getTeamSuggestions } = useTeamClient()
 
 // Handle input changes for suggestions with debouncing
 const handleInput = (query) => {
@@ -94,10 +100,9 @@ const handleInput = (query) => {
     if (query && query.length >= 2) {
       try {
         isLoadingSuggestions.value = true
-        // Fetch upcoming matches and filter client-side
-        const allMatches = await getUpcomingMatches()
-        const filtered = searchMatchesLocal(allMatches, query)
-        suggestions.value = filtered.slice(0, 5) // Limit to 5 suggestions
+        // Fetch team suggestions from API
+        const teams = await getTeamSuggestions(query, 5)
+        suggestions.value = teams
       } catch (err) {
         console.error('Failed to fetch suggestions:', err)
         suggestions.value = []
@@ -110,10 +115,18 @@ const handleInput = (query) => {
   }, 300)
 }
 
-// Handle search - navigate to home with search
-const handleSearch = (teamName) => {
+// Handle search - perform full team search and navigate to first result
+const handleSearch = async (teamName) => {
   suggestions.value = []
-  router.push({ path: '/', query: { team: teamName } })
+  try {
+    const { searchTeams } = useTeamClient()
+    const teams = await searchTeams(teamName, 1)
+    if (teams && teams.length > 0) {
+      router.push(`/team/${teams[0].id}`)
+    }
+  } catch (err) {
+    console.error('Failed to search teams:', err)
+  }
 }
 
 // Handle clear search
@@ -121,10 +134,11 @@ const handleClearSearch = () => {
   suggestions.value = []
 }
 
-// Handle suggestion selection
-const handleSelectEvent = (matchId) => {
+// Handle team selection from suggestions
+const handleSelectTeam = (team) => {
   suggestions.value = []
-  router.push(`/match/${matchId}`)
+  // Navigate to team detail page
+  router.push(`/team/${team.id}`)
 }
 
 const toggleMobileMenu = () => {
@@ -141,6 +155,14 @@ const getUserInitials = () => {
     return currentUser.value.getInitials()
   }
   return 'U'
+}
+
+const goToProfile = () => {
+  if (currentUser.value?.username) {
+    userMenuOpen.value = false
+    mobileMenuOpen.value = false
+    router.push(`/user/${currentUser.value.username}`)
+  }
 }
 
 const handleLogout = () => {
@@ -266,6 +288,17 @@ onMounted(() => {
   transform: translateY(-2px) !important;
 }
 
+.lists-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link-icon {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
 .user-menu {
   position: relative;
 }
@@ -325,6 +358,12 @@ onMounted(() => {
 .dropdown-header {
   padding: 1rem;
   background: #f9fafb;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dropdown-header:hover {
+  background: #e5e7eb;
 }
 
 .dropdown-user-info {

@@ -198,23 +198,26 @@ const handleViewDetails = (match) => {
 <template>
   <main class="main-content">
     <!-- Loading indicator -->
-    <div v-if="loading" class="loading-indicator">
-      Loading matches...
+    <div v-if="loading" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Loading matches...</p>
     </div>
     
     <!-- Error message -->
-    <div v-if="error" class="error-message">
-      Error: {{ error }}
+    <div v-if="error" class="error-container">
+      <p>{{ error }}</p>
     </div>
     
-    <section class="events-section">
-      <h1 class="section-title">
-        {{ isSearchActive ? `Matches for "${searchedTeamName}"` : "Today's Matches" }}
-      </h1>
-      <div v-if="matches.length === 0 && !loading" class="no-results">
-        {{ isSearchActive ? 'No matches found for this team.' : 'No matches scheduled for today.' }}
+    <!-- Today's Matches Section -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>{{ isSearchActive ? `Matches for "${searchedTeamName}"` : "Today's Matches" }}</h2>
+        <div class="section-divider"></div>
       </div>
-      <div class="events-grid" v-else>
+      <div v-if="matches.length === 0 && !loading" class="no-results">
+        <p>{{ isSearchActive ? 'No matches found for this team.' : 'No matches scheduled for today.' }}</p>
+      </div>
+      <div class="matches-carousel" v-else>
         <MatchCard
           v-for="match in matches"
           :key="match.id"
@@ -223,9 +226,14 @@ const handleViewDetails = (match) => {
         />
       </div>
     </section>
-    <section class="events-section">
-      <h1 class="section-title">Logged by Friends</h1>
-      <div class="events-grid">
+
+    <!-- Friends Section -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>Logged by Friends</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="matches-carousel">
         <FriendEventCard
           v-for="event in friendEvents"
           :key="event.id"
@@ -234,9 +242,14 @@ const handleViewDetails = (match) => {
         />
       </div>
     </section>
-    <section class="events-section">
-      <h1 class="section-title">Tournament News</h1>
-      <div class="events-grid">
+
+    <!-- Tournament News Section -->
+    <section class="content-section">
+      <div class="section-header">
+        <h2>Tournament News</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="matches-carousel">
         <NewsCard
           v-for="news in tournamentNews"
           :key="news.id"
@@ -251,30 +264,94 @@ const handleViewDetails = (match) => {
 <style scoped>
 .main-content {
   flex: 1;
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
+  background: #f8f9fa;
+  min-height: 100vh;
+  padding-top: 2rem;
 }
 
-.events-section {
-  width: 100%;
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  max-width: 1400px;
+  margin: 0 auto 2rem;
+  padding: 2rem;
+  text-align: center;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid #1e3a8a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p,
+.error-container p {
+  color: #6b7280;
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+.error-container {
+  background: #fee2e2;
+}
+
+.error-container p {
+  color: #991b1b;
+  font-weight: 500;
+}
+
+/* Content Sections */
+.content-section {
+  max-width: 1400px;
+  margin: 0 auto 3rem;
+  padding: 0 2rem;
+}
+
+.content-section:last-child {
   margin-bottom: 3rem;
 }
 
-.events-section:last-child {
-  margin-bottom: 0;
+/* Section Headers - Classic Typography */
+.section-header {
+  position: relative;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.section-title {
-  font-size: 2.5rem;
+.section-header h2 {
+  font-size: 1.75rem;
   font-weight: 700;
   color: #1e3a8a;
-  margin-bottom: 2rem;
-  text-align: center;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: Georgia, 'Times New Roman', serif;
+  white-space: nowrap;
 }
 
-.events-grid {
+.section-divider {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, #1e3a8a, transparent);
+}
+
+/* Carousel Layout */
+.matches-carousel {
   display: flex;
   flex-direction: row;
   gap: 1.5rem;
@@ -286,68 +363,93 @@ const handleViewDetails = (match) => {
   -webkit-overflow-scrolling: touch;
 }
 
-.events-grid::-webkit-scrollbar {
+/* Scrollbar Styling */
+.matches-carousel::-webkit-scrollbar {
   height: 8px;
 }
 
-.events-grid::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.matches-carousel::-webkit-scrollbar-track {
+  background: #e5e7eb;
   border-radius: 10px;
 }
 
-.events-grid::-webkit-scrollbar-thumb {
+.matches-carousel::-webkit-scrollbar-thumb {
   background: #1e3a8a;
   border-radius: 10px;
+  transition: background 0.2s ease;
 }
 
-.events-grid::-webkit-scrollbar-thumb:hover {
+.matches-carousel::-webkit-scrollbar-thumb:hover {
   background: #1e40af;
+}
+
+/* No Results State */
+.no-results {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.no-results p {
+  color: #9ca3af;
+  font-size: 1.125rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content-section {
+    padding: 0 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
   .main-content {
-    padding: 1.5rem 1rem;
+    padding-top: 1rem;
   }
 
-  .section-title {
-    font-size: 2rem;
+  .content-section {
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-header {
     margin-bottom: 1.5rem;
   }
 
-  .events-grid {
+  .section-header h2 {
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+  }
+
+  .matches-carousel {
     gap: 1rem;
     padding: 0.5rem 0 1.5rem;
   }
+
+  .loading-container,
+  .error-container {
+    padding: 1.5rem;
+    margin: 0 1rem 1.5rem;
+  }
+
+  .no-results {
+    padding: 2rem 1.5rem;
+  }
+
+  .no-results p {
+    font-size: 1rem;
+  }
 }
 
-.loading-indicator {
-  padding: 1rem;
-  background: #dbeafe;
-  color: #1e40af;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  text-align: center;
-  font-weight: 500;
-}
-
-.error-message {
-  padding: 1rem;
-  background: #fee2e2;
-  color: #991b1b;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  text-align: center;
-  font-weight: 500;
-}
-
-.no-results {
-  padding: 3rem 2rem;
-  text-align: center;
-  color: #6b7280;
-  font-size: 1.125rem;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 2px dashed #d1d5db;
+@media (max-width: 480px) {
+  .section-header h2 {
+    font-size: 1.125rem;
+  }
 }
 </style>
+
 

@@ -146,38 +146,6 @@ const getEventImage = (eventType) => {
 
       <!-- Main Content -->
       <div class="content">
-        <!-- Teams Section -->
-        <div class="teams-section">
-          <div class="team home-team">
-            <div class="team-name">{{ event.match?.home?.name || 'TBD' }}</div>
-            <div class="team-label">Home</div>
-          </div>
-          <div class="vs-divider">VS</div>
-          <div class="team away-team">
-            <div class="team-name">{{ event.match?.away?.name || 'TBD' }}</div>
-            <div class="team-label">Away</div>
-          </div>
-        </div>
-
-        <!-- Event Information -->
-        <div class="info-section">
-          <h2>Event Information</h2>
-          <div class="info-grid">
-            <div class="info-item">
-              <span class="info-label">Event Type:</span>
-              <span class="info-value event-type-badge">{{ event.eventType }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Date & Time:</span>
-              <span class="info-value">{{ formatDate(event.date) }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Comments:</span>
-              <span class="info-value">{{ event.commentCount }} {{ event.commentCount === 1 ? 'comment' : 'comments' }}</span>
-            </div>
-          </div>
-        </div>
-
         <!-- Comments Section -->
         <div class="comments-section">
           <h2>Comments ({{ event.commentCount }})</h2>

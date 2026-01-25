@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 
-const emit = defineEmits(['search', 'clear', 'input', 'select-event'])
+const emit = defineEmits(['search', 'clear', 'input', 'select-team'])
 const props = defineProps({
   suggestions: {
     type: Array,
@@ -44,8 +44,8 @@ const handleClear = () => {
 }
 
 const handleSuggestionClick = (suggestion) => {
-  // Navigate to event detail page
-  emit('select-event', suggestion.id)
+  // Navigate to team page or emit team selection
+  emit('select-team', suggestion)
   showSuggestions.value = false
   searchQuery.value = ''
 }
@@ -103,7 +103,7 @@ const formatDate = (date) => {
         v-model="searchQuery"
         type="text"
         class="search-input"
-        placeholder="Search matches by team name..."
+        placeholder="Search teams..."
         @keydown="handleKeyDown"
         @blur="closeSuggestions"
       />
@@ -155,19 +155,26 @@ const formatDate = (date) => {
           @mouseenter="selectedIndex = index"
         >
           <div class="suggestion-content">
-            <div class="suggestion-teams">
-              <span class="team-name">{{ suggestion.homeTeam?.name }}</span>
-              <span class="vs">vs</span>
-              <span class="team-name">{{ suggestion.awayTeam?.name }}</span>
+            <div class="suggestion-header">
+              <img 
+                v-if="suggestion.crest" 
+                :src="suggestion.crest" 
+                :alt="suggestion.name"
+                class="team-crest"
+              />
+              <div class="team-info">
+                <span class="team-name">{{ suggestion.name }}</span>
+                <span class="team-short-name">{{ suggestion.shortName }}</span>
+              </div>
             </div>
             <div class="suggestion-meta">
-              <span class="event-type">{{ suggestion.competition?.name }}</span>
-              <span class="event-date">{{ formatDate(suggestion.utcDate) }}</span>
+              <span v-if="suggestion.competitionName" class="competition">{{ suggestion.competitionName }}</span>
+              <span v-if="suggestion.venue" class="venue">{{ suggestion.venue }}</span>
             </div>
           </div>
         </div>
         <div v-if="!isLoadingSuggestions && suggestions.length === 0" class="suggestion-item no-results">
-          No matches found
+          No teams found
         </div>
       </div>
     </div>
@@ -201,11 +208,12 @@ const formatDate = (date) => {
 .search-input {
   flex: 1;
   padding: 0.5rem 0.75rem;
+  padding-right: 0.5rem;
   border: none;
   font-size: 0.875rem;
   outline: none;
   background: transparent;
-  border-radius: 8px 0 0 8px;
+  border-radius: 8px;
   color: #000000;
 }
 
@@ -235,7 +243,7 @@ const formatDate = (date) => {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  padding: 0.5rem 0.875rem;
+  padding: 0.4rem 0.4rem;
   background: #1e3a8a;
   color: white;
   border: none;
@@ -243,8 +251,10 @@ const formatDate = (date) => {
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px;
   white-space: nowrap;
+  margin-left: 0.5rem;
+  margin-right: 0.4rem;
 }
 
 .search-button:hover:not(:disabled) {
@@ -311,23 +321,35 @@ const formatDate = (date) => {
   gap: 0.375rem;
 }
 
-.suggestion-teams {
+.suggestion-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+}
+
+.team-crest {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex: 1;
+}
+
+.team-name {
   font-weight: 600;
   color: #1e3a8a;
   font-size: 0.875rem;
 }
 
-.team-name {
-  font-size: 0.875rem;
-}
-
-.vs {
-  color: #6b7280;
-  font-weight: 400;
+.team-short-name {
   font-size: 0.75rem;
+  color: #6b7280;
 }
 
 .suggestion-meta {
@@ -335,14 +357,15 @@ const formatDate = (date) => {
   gap: 0.75rem;
   font-size: 0.75rem;
   color: #6b7280;
+  margin-left: 2.5rem;
 }
 
-.event-type {
+.competition {
   font-weight: 500;
   color: #1e40af;
 }
 
-.event-date {
+.venue {
   color: #9ca3af;
 }
 
@@ -378,12 +401,22 @@ const formatDate = (date) => {
     padding: 0.625rem 0.75rem;
   }
 
-  .suggestion-teams {
+  .suggestion-header {
+    gap: 0.5rem;
+  }
+
+  .team-crest {
+    width: 28px;
+    height: 28px;
+  }
+
+  .team-name {
     font-size: 0.813rem;
   }
 
   .suggestion-meta {
     font-size: 0.688rem;
+    margin-left: 2rem;
   }
 }
 </style>

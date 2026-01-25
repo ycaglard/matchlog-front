@@ -3,6 +3,8 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMatchClient } from '../clients/matchClient.js'
 import { authStore } from '../store/authStore.js'
+import { listStore } from '../store/listStore.js'
+import ListSelector from '../components/ListSelector.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -12,10 +14,22 @@ const match = ref(null)
 const newCommentText = ref('')
 const isSubmitting = ref(false)
 const commentError = ref(null)
+const showListSelector = ref(false)
 
 // Get current user ID from auth store
 const currentUserId = computed(() => authStore.user?.id || null)
 const currentUsername = computed(() => authStore.user?.username || 'User')
+
+// Get lists containing this match
+const listsContainingMatch = computed(() => {
+  if (!match.value) return []
+  return listStore.getListsContainingMatch(match.value.id)
+})
+
+const isInFavourites = computed(() => {
+  if (!match.value) return false
+  return listStore.isMatchInDefaultList(match.value.id, 'favourites')
+})
 
 // Fetch match details when component mounts
 onMounted(async () => {
@@ -25,6 +39,11 @@ onMounted(async () => {
       const matchData = await getMatchById(matchId)
       match.value = matchData
       console.log('Match details loaded:', matchData)
+      
+      // Load lists if authenticated
+      if (authStore.isAuthenticated && listStore.myLists.length === 0) {
+        await listStore.loadMyLists()
+      }
     } catch (err) {
       console.error('Failed to fetch match details:', err)
     }
@@ -121,6 +140,24 @@ const getStatusClass = () => {
   if (['SCHEDULED', 'TIMED'].includes(status)) return 'status-scheduled'
   return 'status-default'
 }
+
+const goToTeamDetail = (teamId) => {
+  if (teamId) {
+    router.push(`/team/${teamId}`)
+  }
+}
+
+const handleListUpdated = () => {
+  // List was updated, could show a toast notification
+  console.log('Match added/removed from list')
+}
+
+// Tab management
+const activeTab = ref('squads')
+
+const setActiveTab = (tab) => {
+  activeTab.value = tab
+}
 </script>
 
 <template>
@@ -140,127 +177,222 @@ const getStatusClass = () => {
 
     <!-- Match Details -->
     <div v-else-if="match" class="match-detail">
-      <!-- Header with Back Button -->
-      <div class="header">
-        <button @click="goBack" class="back-button">
-          ← Back to Matches
-        </button>
+      <!-- Hero Header -->
+      <div class="match-hero">
+        <div class="hero-back">
+          <button @click="goBack" class="hero-back-button">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M12 4L6 10l6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Matches
+          </button>
+        </div>
+        
+        <div class="hero-content">
+          <!-- Competition Badge -->
+          <div class="competition-badge">
+            <img v-if="match.competition?.emblem" :src="match.competition.emblem" :alt="match.competition?.name" class="competition-emblem-small" />
+            <div class="competition-text">
+              <h2 class="competition-title">{{ match.competition?.name || 'Competition' }}</h2>
+              <p class="competition-subtitle">{{ match.stage }} • Matchday {{ match.matchday }}</p>
+            </div>
+          </div>
+
+          <!-- Match Status Badge -->
+          <div class="status-badge" :class="getStatusClass()">
+            {{ match.status }}
+          </div>
+        </div>
       </div>
 
-      <!-- Competition Banner -->
-      <div class="competition-banner">
-        <div class="competition-emblem-container">
-          <img v-if="match.competition?.emblem" :src="match.competition.emblem" :alt="match.competition?.name" class="competition-emblem" />
-        </div>
-        <div class="competition-info">
-          <h1>{{ match.competition?.name || 'Competition' }}</h1>
-          <p>{{ match.stage }} - Matchday {{ match.matchday }}</p>
-        </div>
-        <div class="match-status-overlay" :class="getStatusClass()">
-          {{ match.status }}
-        </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="content">
-        <!-- Teams Section -->
-        <div class="teams-section">
-          <div class="team home-team">
-            <img v-if="match.homeTeam?.crest" :src="match.homeTeam.crest" :alt="match.homeTeam?.name" class="team-crest" />
-            <div class="team-name">{{ match.homeTeam?.name || 'TBD' }}</div>
-            <div class="team-label">Home</div>
+      <!-- Score Hero Section -->
+      <div class="score-hero">
+        <div class="score-hero-content">
+          <div class="team-column home-column clickable-team" @click="goToTeamDetail(match.homeTeam?.id)">
+            <img v-if="match.homeTeam?.crest" :src="match.homeTeam.crest" :alt="match.homeTeam?.name" class="hero-team-crest" />
+            <h1 class="hero-team-name">{{ match.homeTeam?.name || 'TBD' }}</h1>
+            <span class="hero-team-label">Home</span>
           </div>
-          <div class="score-section">
-            <div class="score-display">{{ getScoreDisplay() }}</div>
-            <div v-if="match.score?.halfTime" class="halftime-score">
-              HT: {{ match.score.halfTime.home ?? '-' }} - {{ match.score.halfTime.away ?? '-' }}
-            </div>
-          </div>
-          <div class="team away-team">
-            <img v-if="match.awayTeam?.crest" :src="match.awayTeam.crest" :alt="match.awayTeam?.name" class="team-crest" />
-            <div class="team-name">{{ match.awayTeam?.name || 'TBD' }}</div>
-            <div class="team-label">Away</div>
-          </div>
-        </div>
-
-        <!-- Match Information -->
-        <div class="info-section">
-          <h2>Match Information</h2>
-          <div class="info-grid">
-            <div class="info-item">
-              <span class="info-label">Competition:</span>
-              <span class="info-value">{{ match.competition?.name }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Date & Time:</span>
-              <span class="info-value">{{ formatDate(match.utcDate) }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Status:</span>
-              <span class="info-value" :class="getStatusClass()">{{ match.status }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Matchday:</span>
-              <span class="info-value">{{ match.matchday }}</span>
-            </div>
-            <div v-if="match.area" class="info-item">
-              <span class="info-label">Area:</span>
-              <span class="info-value">{{ match.area.name }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Comments:</span>
-              <span class="info-value">{{ match.comments?.length || 0 }} {{ match.comments?.length === 1 ? 'comment' : 'comments' }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Comments Section -->
-        <div class="comments-section">
-          <h2>Comments ({{ match.comments?.length || 0 }})</h2>
           
-          <!-- Add Comment Form -->
-          <div class="add-comment-form">
-            <h3>Add a Comment</h3>
-            <textarea
-              v-model="newCommentText"
-              placeholder="Write your comment here..."
-              rows="4"
-              class="comment-textarea"
-              :disabled="isSubmitting"
-            ></textarea>
-            <div v-if="commentError" class="comment-error">
-              {{ commentError }}
+          <div class="score-column">
+            <div class="hero-score">{{ getScoreDisplay() }}</div>
+            <div v-if="match.score?.halfTime" class="hero-halftime">
+              Half-Time: {{ match.score.halfTime.home ?? '-' }} — {{ match.score.halfTime.away ?? '-' }}
             </div>
-            <button
-              @click="handleSubmitComment"
-              :disabled="isSubmitting || !newCommentText.trim()"
-              class="submit-comment-button"
-            >
-              {{ isSubmitting ? 'Posting...' : 'Post Comment' }}
-            </button>
+            <div class="match-datetime">{{ formatDate(match.utcDate) }}</div>
           </div>
+          
+          <div class="team-column away-column clickable-team" @click="goToTeamDetail(match.awayTeam?.id)">
+            <img v-if="match.awayTeam?.crest" :src="match.awayTeam.crest" :alt="match.awayTeam?.name" class="hero-team-crest" />
+            <h1 class="hero-team-name">{{ match.awayTeam?.name || 'TBD' }}</h1>
+            <span class="hero-team-label">Away</span>
+          </div>
+        </div>
+        
+        <!-- Add to List Section -->
+        <div v-if="authStore.isAuthenticated" class="list-actions">
+          <button 
+            class="add-to-list-btn" 
+            @click="showListSelector = true"
+            :title="listsContainingMatch.length > 0 ? `In ${listsContainingMatch.length} list(s)` : 'Add to list'"
+          >
+            <span class="btn-icon">{{ isInFavourites ? '★' : '☰' }}</span>
+            <span class="btn-text">Add to List</span>
+            <span v-if="listsContainingMatch.length > 0" class="badge">{{ listsContainingMatch.length }}</span>
+          </button>
+          
+          <div v-if="listsContainingMatch.length > 0" class="in-lists-indicator">
+            <span class="indicator-text">In: </span>
+            <span v-for="list in listsContainingMatch.slice(0, 3)" :key="list.id" class="list-tag">
+              {{ list.getIcon() }} {{ list.name }}
+            </span>
+            <span v-if="listsContainingMatch.length > 3" class="more-lists">
+              +{{ listsContainingMatch.length - 3 }} more
+            </span>
+          </div>
+        </div>
+      </div>
 
-          <!-- Comments List -->
-          <div v-if="match.comments && match.comments.length > 0" class="comments-list">
-            <div v-for="comment in match.comments" :key="comment.id" class="comment-card">
-              <div class="comment-header">
-                <div class="comment-user">
-                  <div class="user-avatar">{{ comment.username?.charAt(0).toUpperCase() || 'U' }}</div>
-                  <div class="user-info">
-                    <div class="username">{{ comment.username }}</div>
-                    <div class="comment-date">{{ formatCommentDate(comment.createdAt) }}</div>
+      <!-- Main Content Area -->
+      <div class="content-wrapper">
+        <!-- Main Column -->
+        <div class="main-column">
+          <!-- Tabbed Section -->
+          <section class="content-section tabbed-section">
+            <div class="tabs-navigation">
+              <button 
+                class="tab-button" 
+                :class="{ active: activeTab === 'squads' }"
+                @click="setActiveTab('squads')"
+              >
+                Squads
+              </button>
+              <button 
+                class="tab-button" 
+                :class="{ active: activeTab === 'details' }"
+                @click="setActiveTab('details')"
+              >
+                Match Details
+              </button>
+              <button 
+                class="tab-button" 
+                :class="{ active: activeTab === 'statistics' }"
+                @click="setActiveTab('statistics')"
+              >
+                Statistics
+              </button>
+            </div>
+
+            <div class="tab-content">
+              <!-- Squads Tab -->
+              <div v-show="activeTab === 'squads'" class="tab-panel">
+                <div class="squads-container">
+                  <div class="squad-column">
+                    <h3 class="squad-title">{{ match.homeTeam?.name }}</h3>
+                    <p class="squad-placeholder">Squad information will be displayed here</p>
+                  </div>
+                  <div class="squad-column">
+                    <h3 class="squad-title">{{ match.awayTeam?.name }}</h3>
+                    <p class="squad-placeholder">Squad information will be displayed here</p>
                   </div>
                 </div>
               </div>
-              <div class="comment-body">
-                <p>{{ comment.text }}</p>
+
+              <!-- Match Details Tab -->
+              <div v-show="activeTab === 'details'" class="tab-panel">
+                <div class="details-list">
+                  <div class="detail-row">
+                    <span class="detail-label">Competition</span>
+                    <span class="detail-value">{{ match.competition?.name }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Stage</span>
+                    <span class="detail-value">{{ match.stage }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Matchday</span>
+                    <span class="detail-value">{{ match.matchday }}</span>
+                  </div>
+                  <div v-if="match.area" class="detail-row">
+                    <span class="detail-label">Area</span>
+                    <span class="detail-value">{{ match.area.name }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Status</span>
+                    <span class="detail-value status-inline" :class="getStatusClass()">{{ match.status }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Date & Time</span>
+                    <span class="detail-value">{{ formatDate(match.utcDate) }}</span>
+                  </div>
+                  <div v-if="match.score?.duration" class="detail-row">
+                    <span class="detail-label">Duration</span>
+                    <span class="detail-value">{{ match.score.duration }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Statistics Tab -->
+              <div v-show="activeTab === 'statistics'" class="tab-panel">
+                <div class="statistics-placeholder">
+                  <p>Match statistics will be displayed here</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div v-else class="comments-placeholder">
-            <p>No comments yet. Be the first to comment!</p>
-          </div>
+          </section>
+
+          <!-- Comments Section -->
+          <section class="content-section comments-section">
+            <div class="section-header">
+              <h2>Discussion</h2>
+              <span class="comment-count">{{ match.comments?.length || 0 }} {{ match.comments?.length === 1 ? 'comment' : 'comments' }}</span>
+              <div class="section-divider"></div>
+            </div>
+
+            <!-- Add Comment Form -->
+            <div class="add-comment-area">
+              <h3 class="comment-form-title">Share Your Thoughts</h3>
+              <textarea
+                v-model="newCommentText"
+                placeholder="What did you think of the match?"
+                rows="4"
+                class="comment-textarea"
+                :disabled="isSubmitting"
+              ></textarea>
+              <div v-if="commentError" class="comment-error">
+                {{ commentError }}
+              </div>
+              <button
+                @click="handleSubmitComment"
+                :disabled="isSubmitting || !newCommentText.trim()"
+                class="submit-comment-button"
+              >
+                {{ isSubmitting ? 'Posting...' : 'Post Comment' }}
+              </button>
+            </div>
+
+            <!-- Comments List -->
+            <div v-if="match.comments && match.comments.length > 0" class="comments-list">
+              <div v-for="comment in match.comments" :key="comment.id" class="comment-item">
+                <div class="comment-avatar">{{ comment.username?.charAt(0).toUpperCase() || 'U' }}</div>
+                <div class="comment-content">
+                  <div class="comment-meta">
+                    <span class="comment-author">{{ comment.username }}</span>
+                    <span class="comment-timestamp">{{ formatCommentDate(comment.createdAt) }}</span>
+                  </div>
+                  <p class="comment-text">{{ comment.text }}</p>
+                </div>
+              </div>
+            </div>
+            <div v-else class="comments-empty">
+              <p>No comments yet. Be the first to share your thoughts on this match!</p>
+            </div>
+          </section>
         </div>
+
+        <!-- Sidebar Column -->
+        <aside class="sidebar-column">
+        </aside>
       </div>
     </div>
 
@@ -269,13 +401,21 @@ const getStatusClass = () => {
       <h2>Match Not Found</h2>
       <button @click="goBack" class="back-button">Go Back Home</button>
     </div>
+    
+    <!-- List Selector Modal -->
+    <ListSelector
+      v-if="showListSelector && match"
+      :match-id="match.id"
+      @close="showListSelector = false"
+      @updated="handleListUpdated"
+    />
   </main>
 </template>
 
 <style scoped>
 .match-detail-container {
   min-height: 100vh;
-  background: #f9fafb;
+  background: #f8f9fa;
 }
 
 .loading-state,
@@ -287,12 +427,15 @@ const getStatusClass = () => {
   justify-content: center;
   min-height: 60vh;
   padding: 2rem;
+  background: white;
+  margin: 2rem;
+  border-radius: 8px;
 }
 
 .spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #e5e7eb;
+  border: 4px solid #f3f4f6;
   border-top-color: #1e3a8a;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -315,91 +458,101 @@ const getStatusClass = () => {
   margin-bottom: 1rem;
 }
 
-.header {
-  padding: 1.5rem 2rem;
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
-}
-
 .back-button {
   padding: 0.75rem 1.5rem;
   background: #1e3a8a;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.938rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.2s ease;
 }
 
 .back-button:hover {
   background: #1e40af;
 }
 
-.competition-banner {
-  position: relative;
-  width: 100%;
+/* Hero Header */
+.match-hero {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: white;
+  padding: 1.5rem 2rem 1rem;
+}
+
+.hero-back {
+  max-width: 1200px;
+  margin: 0 auto 1rem;
+}
+
+.hero-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.hero-back-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.hero-content {
   max-width: 1200px;
   margin: 0 auto;
-  min-height: 200px;
-  max-height: 300px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.competition-badge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.competition-emblem-small {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.competition-text {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  color: white;
-  overflow: hidden;
+  gap: 0.25rem;
 }
 
-.competition-emblem-container {
-  margin-bottom: 1rem;
-  flex-shrink: 0;
-}
-
-.competition-emblem {
-  height: 80px;
-  max-height: 80px;
-  width: auto;
-  max-width: 200px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
-}
-
-.competition-info {
-  text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.competition-info h1 {
-  font-size: clamp(1.25rem, 4vw, 2rem);
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
-
-.competition-info p {
-  font-size: clamp(0.875rem, 2.5vw, 1.125rem);
-  opacity: 0.9;
+.competition-title {
+  font-size: 1.25rem;
+  font-weight: 600;
   margin: 0;
-  word-wrap: break-word;
+  letter-spacing: 0.3px;
 }
 
-.match-status-overlay {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 0.75rem 1.5rem;
+.competition-subtitle {
+  font-size: 0.875rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.813rem;
   font-weight: 700;
-  font-size: 1rem;
-  border-radius: 8px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .status-scheduled {
@@ -428,147 +581,398 @@ const getStatusClass = () => {
   50% { opacity: 0.7; }
 }
 
-.content {
+/* Score Hero Section */
+.score-hero {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 3rem 2rem;
+}
+
+.score-hero-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-}
-
-.teams-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   gap: 3rem;
-  margin-bottom: 3rem;
-  padding: 3rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  align-items: center;
 }
 
-.team {
-  text-align: center;
-  flex: 1;
-  max-width: 250px;
+.team-column {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
 }
 
-.team-crest {
-  height: 80px;
-  width: auto;
+.clickable-team {
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.clickable-team:hover {
+  background: rgba(30, 58, 138, 0.05);
+  transform: translateY(-4px);
+}
+
+.clickable-team:hover .hero-team-crest {
+  transform: scale(1.1);
+}
+
+.clickable-team:hover .hero-team-name {
+  color: #2563eb;
+}
+
+.hero-team-crest {
+  transition: transform 0.3s ease;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
 }
 
-.team-name {
+.hero-team-name {
   font-size: 1.5rem;
   font-weight: 700;
   color: #1e3a8a;
+  margin: 0;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
-.team-label {
-  font-size: 0.875rem;
+.hero-team-label {
+  font-size: 0.75rem;
   color: #6b7280;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
 }
 
-.score-section {
+.score-column {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  min-width: 200px;
 }
 
-.score-display {
-  font-size: 3rem;
+.hero-score {
+  font-size: 3.5rem;
   font-weight: 700;
   color: #1e3a8a;
+  line-height: 1;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
-.halftime-score {
+.hero-halftime {
   font-size: 0.875rem;
   color: #6b7280;
-  font-weight: 600;
+  font-weight: 500;
 }
 
-.info-section,
-.comments-section {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+.match-datetime {
+  font-size: 0.938rem;
+  color: #4b5563;
+  margin-top: 0.5rem;
+  text-align: center;
+  line-height: 1.5;
 }
 
-.info-section h2,
-.comments-section h2 {
-  color: #1e3a8a;
-  font-size: 1.75rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e5e7eb;
-  padding-bottom: 0.75rem;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.info-item {
+/* List Actions */
+.list-actions {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 12px;
 }
 
-.info-label {
+.add-to-list-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e3a8a;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-list-btn:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-list-btn .btn-icon {
+  font-size: 20px;
+}
+
+.add-to-list-btn .badge {
+  background: #42b983;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.in-lists-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.indicator-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.list-tag {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1e3a8a;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.more-lists {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+  align-items: start;
+}
+
+.main-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.content-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Headers */
+.section-header {
+  position: relative;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.comment-count {
   font-size: 0.875rem;
   color: #6b7280;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
-.info-value {
-  font-size: 1.125rem;
-  color: #111827;
+.section-divider {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, #1e3a8a, transparent);
+}
+
+/* Details List */
+.details-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #4b5563;
+  font-size: 0.938rem;
+}
+
+.detail-value {
+  color: #1f2937;
+  font-size: 0.938rem;
+  text-align: right;
+}
+
+.status-inline {
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.813rem;
   font-weight: 600;
 }
 
-.comments-placeholder {
-  padding: 3rem;
-  text-align: center;
-  color: #9ca3af;
+/* Tabbed Section */
+.tabbed-section {
+  padding: 0;
+  overflow: hidden;
+}
+
+.tabs-navigation {
+  display: flex;
+  border-bottom: 2px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tab-button:hover {
+  background: rgba(30, 58, 138, 0.05);
+  color: #1e3a8a;
+}
+
+.tab-button.active {
+  color: #1e3a8a;
+  background: white;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #1e3a8a;
+}
+
+.tab-content {
+  padding: 2rem;
+  background: white;
+  min-height: 300px;
+}
+
+.tab-panel {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Squads Tab */
+.squads-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.squad-column {
+  padding: 1.5rem;
   background: #f9fafb;
   border-radius: 8px;
-  border: 2px dashed #e5e7eb;
+  border: 1px solid #e5e7eb;
 }
 
-.add-comment-form {
+.squad-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.squad-placeholder {
+  text-align: center;
+  color: #9ca3af;
+  padding: 2rem;
+  font-size: 0.938rem;
+}
+
+/* Statistics Tab */
+.statistics-placeholder {
+  text-align: center;
+  color: #9ca3af;
+  padding: 3rem;
+  font-size: 0.938rem;
+}
+
+/* Comments Section */
+.add-comment-area {
   margin-bottom: 2rem;
   padding: 1.5rem;
   background: #f9fafb;
   border-radius: 8px;
-  border: 2px solid #e5e7eb;
+  border: 1px solid #e5e7eb;
 }
 
-.add-comment-form h3 {
-  margin: 0 0 1rem 0;
+.comment-form-title {
+  font-size: 1.125rem;
+  font-weight: 600;
   color: #1e3a8a;
-  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
 }
 
 .comment-textarea {
   width: 100%;
   padding: 0.875rem;
   border: 2px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: 6px;
   font-family: inherit;
-  font-size: 0.9375rem;
+  font-size: 0.938rem;
   line-height: 1.6;
   resize: vertical;
   transition: border-color 0.2s ease;
@@ -586,7 +990,7 @@ const getStatusClass = () => {
 }
 
 .comment-error {
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
   padding: 0.75rem;
   background: #fee2e2;
   color: #991b1b;
@@ -601,15 +1005,16 @@ const getStatusClass = () => {
   background: #1e3a8a;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 6px;
+  font-size: 0.938rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .submit-comment-button:hover:not(:disabled) {
   background: #1e40af;
+  transform: translateY(-1px);
 }
 
 .submit-comment-button:disabled {
@@ -623,33 +1028,18 @@ const getStatusClass = () => {
   gap: 1rem;
 }
 
-.comment-card {
-  background: #f9fafb;
-  border-radius: 8px;
-  padding: 1.25rem;
-  border-left: 4px solid #1e3a8a;
-  transition: all 0.2s ease;
-}
-
-.comment-card:hover {
-  background: #f3f4f6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.comment-header {
+.comment-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.75rem;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f3f4f6;
 }
 
-.comment-user {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.comment-item:last-child {
+  border-bottom: none;
 }
 
-.user-avatar {
+.comment-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -660,166 +1050,243 @@ const getStatusClass = () => {
   justify-content: center;
   font-weight: 700;
   font-size: 1.125rem;
+  flex-shrink: 0;
 }
 
-.user-info {
+.comment-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.comment-author {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.938rem;
+}
+
+.comment-timestamp {
+  font-size: 0.813rem;
+  color: #9ca3af;
+}
+
+.comment-text {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.6;
+  font-size: 0.938rem;
+}
+
+.comments-empty {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #9ca3af;
+  background: #f9fafb;
+  border-radius: 6px;
+  font-size: 0.938rem;
+}
+
+.comments-empty p {
+  margin: 0;
+}
+
+/* Sidebar */
+.sidebar-column {
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
+  gap: 1.5rem;
+  position: sticky;
+  top: 2rem;
 }
 
-.username {
-  font-weight: 600;
-  color: #111827;
-  font-size: 0.9375rem;
+.sidebar-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.comment-date {
-  font-size: 0.75rem;
+.sidebar-title {
+  font-size: 0.875rem;
+  font-weight: 700;
   color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 1rem 0;
 }
 
-.comment-body {
-  margin-top: 0.5rem;
+.quick-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.comment-body p {
-  margin: 0;
-  color: #374151;
-  line-height: 1.6;
-  font-size: 0.9375rem;
+.quick-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+  line-height: 1.5;
 }
 
-@media (max-width: 768px) {
-  .competition-banner {
-    min-height: 150px;
+.quick-info-item svg {
+  flex-shrink: 0;
+  color: #1e3a8a;
+}
+
+.competition-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+}
+
+.sidebar-competition-emblem {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
     padding: 1.5rem;
   }
 
-  .competition-emblem {
-    height: 60px;
+  .sidebar-column {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .competition-info h1 {
-    font-size: 1.5rem;
-  }
-
-  .competition-info p {
-    font-size: 1rem;
-  }
-
-  .teams-section {
-    flex-direction: column;
-    gap: 1.5rem;
-    padding: 2rem;
-  }
-
-  .team-name {
-    font-size: 1.25rem;
-  }
-
-  .team-crest {
-    height: 60px;
-  }
-
-  .score-display {
-    font-size: 2rem;
-  }
-
-  .content {
-    padding: 1rem;
-  }
-
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .match-status-overlay {
-    position: relative;
-    top: auto;
-    right: auto;
-    margin-top: 1rem;
+  .score-hero-content {
+    gap: 2rem;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .match-detail-container {
-    background: #111827;
+@media (max-width: 768px) {
+  .match-hero {
+    padding: 1rem 1rem 0.75rem;
   }
 
-  .header {
-    background: #1f2937;
-    border-bottom-color: #374151;
+  .hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
 
-  .teams-section,
-  .info-section,
-  .comments-section {
-    background: #1f2937;
+  .status-badge {
+    align-self: flex-start;
   }
 
-  .team-name,
-  .score-display {
-    color: #60a5fa;
+  .score-hero {
+    padding: 2rem 1rem;
   }
 
-  .info-section h2,
-  .comments-section h2 {
-    color: #60a5fa;
-    border-bottom-color: #374151;
+  .score-hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .info-value {
-    color: #f9fafb;
+  .team-column {
+    flex-direction: row;
+    justify-content: center;
   }
 
-  .comments-placeholder {
-    background: #111827;
-    border-color: #374151;
+  .hero-team-crest {
+    width: 60px;
+    height: 60px;
   }
 
-  .add-comment-form {
-    background: #111827;
-    border-color: #374151;
+  .hero-team-name {
+    font-size: 1.25rem;
+    text-align: left;
   }
 
-  .add-comment-form h3 {
-    color: #60a5fa;
+  .score-column {
+    order: -1;
   }
 
-  .comment-textarea {
-    background: #1f2937;
-    border-color: #374151;
-    color: #f9fafb;
+  .hero-score {
+    font-size: 2.5rem;
   }
 
-  .comment-textarea:focus {
-    border-color: #60a5fa;
+  .content-wrapper {
+    padding: 1rem;
+    gap: 1rem;
   }
 
-  .comment-textarea:disabled {
-    background: #111827;
+  .content-section {
+    padding: 1.5rem;
   }
 
-  .comment-card {
-    background: #111827;
-    border-left-color: #60a5fa;
+  .section-header h2 {
+    font-size: 1.25rem;
   }
 
-  .comment-card:hover {
-    background: #0f172a;
+  .sidebar-column {
+    grid-template-columns: 1fr;
   }
 
-  .user-avatar {
-    background: #60a5fa;
+  .detail-row {
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
-  .username {
-    color: #f9fafb;
+  .detail-value {
+    text-align: left;
   }
 
-  .comment-body p {
-    color: #d1d5db;
+  .squads-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .tab-button {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .tab-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .competition-badge {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-team-name {
+    font-size: 1.125rem;
+  }
+
+  .hero-score {
+    font-size: 2rem;
+  }
+
+  .team-column {
+    flex-direction: column;
+  }
+
+  .tab-button {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.813rem;
+  }
+
+  .tab-content {
+    padding: 1rem;
   }
 }
 </style>

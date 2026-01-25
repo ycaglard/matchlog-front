@@ -78,35 +78,38 @@ const getStatusClass = () => {
 <style scoped>
 .match-card {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  width: 200px;
-  min-width: 200px;
+  width: 220px;
+  min-width: 220px;
   flex-shrink: 0;
+  border: 1px solid #e5e7eb;
 }
 
 .match-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: #1e3a8a;
 }
 
 .match-image {
   width: 100%;
-  height: 80px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 90px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
 }
 
 .competition-emblem {
-  height: 50px;
+  height: 55px;
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
@@ -116,40 +119,45 @@ const getStatusClass = () => {
   font-size: 2rem;
   font-weight: 700;
   color: white;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .match-competition {
-  padding: 0.5rem;
+  padding: 0.625rem 0.75rem;
   text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #374151;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.688rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  background: #f8f9fa;
+  border-bottom: 2px solid #e5e7eb;
   flex-shrink: 0;
-  min-height: 36px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
 }
 
 .match-teams {
-  padding: 1rem 0.75rem;
+  padding: 1.25rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   flex-shrink: 0;
+  background: white;
 }
 
 .team-info {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.625rem;
 }
 
 .team-crest {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -157,7 +165,7 @@ const getStatusClass = () => {
 .team-name {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1e3a8a;
+  color: #1f2937;
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -166,22 +174,25 @@ const getStatusClass = () => {
 
 .score-divider {
   text-align: center;
-  padding: 0.25rem 0;
+  padding: 0.375rem 0;
+  border-top: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f3f4f6;
 }
 
 .score {
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: #1e3a8a;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .match-status-badge {
-  padding: 0.25rem 0.5rem;
+  padding: 0.375rem 0.75rem;
   text-align: center;
   font-size: 0.625rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.75px;
   flex-shrink: 0;
 }
 
@@ -216,41 +227,61 @@ const getStatusClass = () => {
 }
 
 .match-date {
-  padding: 0.5rem 0.625rem;
+  padding: 0.625rem 0.75rem;
   text-align: center;
   color: #6b7280;
   font-size: 0.75rem;
   flex-shrink: 0;
   border-top: 1px solid #e5e7eb;
+  background: #fafbfc;
+  line-height: 1.4;
 }
 
 .match-comments {
-  padding: 0.5rem 0.625rem 0.875rem;
+  padding: 0.5rem 0.75rem;
   text-align: center;
   color: #6b7280;
   font-size: 0.75rem;
   flex-shrink: 0;
+  font-weight: 500;
 }
 
 @media (prefers-color-scheme: dark) {
   .match-card {
     background: #1f2937;
+    border-color: #374151;
+  }
+
+  .match-card:hover {
+    border-color: #60a5fa;
   }
 
   .match-competition {
     background: #111827;
     border-bottom-color: #374151;
-    color: #d1d5db;
-  }
-
-  .team-name, .score {
     color: #60a5fa;
   }
 
-  .match-date,
+  .match-teams {
+    background: #1f2937;
+  }
+
+  .team-name {
+    color: #f9fafb;
+  }
+
+  .score {
+    color: #60a5fa;
+  }
+
+  .match-date {
+    background: #111827;
+    border-top-color: #374151;
+    color: #9ca3af;
+  }
+
   .match-comments {
     color: #9ca3af;
-    border-top-color: #374151;
   }
 }
 </style>

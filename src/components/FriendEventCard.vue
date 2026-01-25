@@ -43,22 +43,24 @@ const formatDate = (dateString) => {
 <style scoped>
 .friend-event-card {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  width: 175px;
-  min-width: 175px;
+  width: 190px;
+  min-width: 190px;
   aspect-ratio: 2 / 3;
   flex-shrink: 0;
+  border: 1px solid #e5e7eb;
 }
 
 .friend-event-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: #1e3a8a;
 }
 
 .event-image {
@@ -70,6 +72,7 @@ const formatDate = (dateString) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .event-image img {
@@ -79,63 +82,81 @@ const formatDate = (dateString) => {
 }
 
 .user-info {
-  padding: 0.5rem 0.625rem;
+  padding: 0.625rem 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
+  gap: 0.625rem;
+  background: #f8f9fa;
+  border-bottom: 2px solid #e5e7eb;
   flex-shrink: 0;
 }
 
 .profile-picture {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #e5e7eb;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .username {
-  font-size: 0.625rem;
-  font-weight: 600;
+  font-size: 0.688rem;
+  font-weight: 700;
   color: #1e3a8a;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .event-teams {
-  padding: 0.875rem 0.625rem;
+  padding: 1rem 0.75rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 0.5rem;
-  flex-wrap: wrap;
   flex-shrink: 0;
+  background: white;
 }
 
 .team {
   font-size: 0.875rem;
-  font-weight: 700;
-  color: #1e3a8a;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+  line-height: 1.3;
 }
 
 .vs {
-  font-size: 0.625rem;
-  color: #6b7280;
-  font-weight: 500;
-  text-transform: lowercase;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .event-date {
-  padding: 0.5rem 0.625rem 0.875rem;
+  padding: 0.625rem 0.75rem;
   text-align: center;
   color: #6b7280;
   font-size: 0.75rem;
   flex-shrink: 0;
+  border-top: 1px solid #e5e7eb;
+  background: #fafbfc;
+  line-height: 1.4;
 }
 
 @media (prefers-color-scheme: dark) {
   .friend-event-card {
     background: #1f2937;
+    border-color: #374151;
+  }
+
+  .friend-event-card:hover {
+    border-color: #60a5fa;
   }
 
   .event-image {
@@ -155,15 +176,21 @@ const formatDate = (dateString) => {
     color: #60a5fa;
   }
 
+  .event-teams {
+    background: #1f2937;
+  }
+
   .team {
-    color: #60a5fa;
+    color: #f9fafb;
   }
 
   .vs {
-    color: #9ca3af;
+    color: #6b7280;
   }
 
   .event-date {
+    background: #111827;
+    border-top-color: #374151;
     color: #9ca3af;
   }
 }

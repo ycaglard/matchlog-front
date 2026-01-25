@@ -277,15 +277,26 @@ const getAuthHeaders = () => {
  */
 export const createComment = async (commentData) => {
   try {
+    const token = localStorage.getItem('matchlog_auth_token')
+    console.log('Creating comment with token:', token ? 'Token exists' : 'No token found')
+    console.log('Token value:', token)
+    
+    const headers = getAuthHeaders()
+    console.log('Request headers:', headers)
+    console.log('Comment data:', commentData)
+    
     const response = await fetch(`${API_BASE_URL}/api/comments`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: headers,
       body: JSON.stringify({
         text: commentData.text,
         userId: commentData.userId,
         eventId: commentData.eventId
       })
     })
+    
+    console.log('Response status:', response.status)
+    console.log('Response headers:', Object.fromEntries(response.headers.entries()))
     
     const data = await handleResponse(response)
     return parseComment(data)

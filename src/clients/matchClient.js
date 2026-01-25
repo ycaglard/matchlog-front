@@ -265,18 +265,23 @@ export const getMatchesByStatus = async (status) => {
 }
 
 /**
- * Get today's matches
+ * Get today's matches from external API
  * @returns {Promise<Match[]>} List of today's matches
  */
 export const getTodayMatches = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/matches/today`, {
+    const response = await fetch(`${API_BASE_URL}/api/matches/today-external`, {
       method: 'GET',
       headers: getAuthHeaders()
     })
     
     const data = await handleResponse(response)
-    return Array.isArray(data) ? data.map(parseMatch) : []
+    // The new endpoint returns an object with matches array, filters, and resultSet
+    // Extract the matches array and parse each match
+    if (data && Array.isArray(data.matches)) {
+      return data.matches.map(parseMatch)
+    }
+    return []
   } catch (error) {
     console.error('Error fetching today matches:', error)
     throw error
@@ -388,15 +393,26 @@ const getAuthHeaders = () => {
  */
 export const createComment = async (commentData) => {
   try {
+    const token = localStorage.getItem('matchlog_auth_token')
+    console.log('Creating comment with token:', token ? 'Token exists' : 'No token found')
+    console.log('Token value:', token)
+    
+    const headers = getAuthHeaders()
+    console.log('Request headers:', headers)
+    console.log('Comment data:', commentData)
+    
     const response = await fetch(`${API_BASE_URL}/api/comments`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: headers,
       body: JSON.stringify({
         text: commentData.text,
         userId: commentData.userId,
         eventId: commentData.eventId
       })
     })
+    
+    console.log('Response status:', response.status)
+    console.log('Response headers:', Object.fromEntries(response.headers.entries()))
     
     const data = await handleResponse(response)
     return {

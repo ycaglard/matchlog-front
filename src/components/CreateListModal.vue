@@ -1,0 +1,323 @@
+<template>
+  <div class="modal-overlay" @click.self="$emit('close')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Create New List</h2>
+        <button class="close-button" @click="$emit('close')">&times;</button>
+      </div>
+
+      <form @submit.prevent="handleSubmit" class="modal-body">
+        <!-- Name Field -->
+        <div class="form-group">
+          <label for="list-name" class="form-label">
+            List Name <span class="required">*</span>
+          </label>
+          <input
+            id="list-name"
+            v-model="formData.name"
+            type="text"
+            class="form-input"
+            placeholder="e.g., Champions League Finals"
+            maxlength="100"
+            required
+            :disabled="isSubmitting"
+          />
+          <div class="form-hint">{{ formData.name.length }}/100 characters</div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-group">
+          <label for="list-description" class="form-label">
+            Description <span class="optional">(optional)</span>
+          </label>
+          <textarea
+            id="list-description"
+            v-model="formData.description"
+            class="form-textarea"
+            placeholder="Describe what this list is about..."
+            maxlength="500"
+            rows="4"
+            :disabled="isSubmitting"
+          ></textarea>
+          <div class="form-hint">{{ formData.description.length }}/500 characters</div>
+        </div>
+
+        <!-- Add Current Match Option -->
+        <div v-if="initialMatchId" class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input
+              v-model="formData.includeCurrentMatch"
+              type="checkbox"
+              :disabled="isSubmitting"
+            />
+            <span>Add current match to this list</span>
+          </label>
+        </div>
+
+        <!-- Error Message -->
+        <div v-if="error" class="error-message">
+          {{ error }}
+        </div>
+
+        <!-- Actions -->
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="button button-secondary"
+            @click="$emit('close')"
+            :disabled="isSubmitting"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="button button-primary"
+            :disabled="isSubmitting || !formData.name.trim()"
+          >
+            <span v-if="isSubmitting">Creating...</span>
+            <span v-else>Create List</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue'
+import { listStore } from '../store/listStore.js'
+
+const props = defineProps({
+  initialMatchId: {
+    type: Number,
+    default: null
+  }
+})
+
+const emit = defineEmits(['close', 'created'])
+
+// State
+const isSubmitting = ref(false)
+const error = ref(null)
+
+const formData = reactive({
+  name: '',
+  description: '',
+  includeCurrentMatch: !!props.initialMatchId
+})
+
+// Methods
+const handleSubmit = async () => {
+  if (!formData.name.trim()) {
+    error.value = 'List name is required'
+    return
+  }
+
+  isSubmitting.value = true
+  error.value = null
+
+  try {
+    const matchIds = formData.includeCurrentMatch && props.initialMatchId 
+      ? [props.initialMatchId] 
+      : []
+
+    const newList = await listStore.createList(
+      formData.name.trim(),
+      formData.description.trim(),
+      matchIds
+    )
+
+    emit('created', newList)
+  } catch (err) {
+    error.value = err.message || 'Failed to create list'
+    isSubmitting.value = false
+  }
+}
+</script>
+
+<style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #657786;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #2c3e50;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.required {
+  color: #e53e3e;
+}
+
+.optional {
+  color: #657786;
+  font-weight: 400;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #42b983;
+}
+
+.form-input:disabled,
+.form-textarea:disabled {
+  background: #f5f8fa;
+  cursor: not-allowed;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-hint {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #657786;
+}
+
+.checkbox-group {
+  padding: 12px;
+  background: #f5f8fa;
+  border-radius: 6px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.checkbox-label input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.error-message {
+  padding: 12px;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 6px;
+  color: #e53e3e;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-secondary {
+  background: #f0f4f8;
+  color: #2c3e50;
+}
+
+.button-secondary:hover:not(:disabled) {
+  background: #e1e8ed;
+}
+
+.button-primary {
+  background: #42b983;
+  color: white;
+}
+
+.button-primary:hover:not(:disabled) {
+  background: #38a374;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(66, 185, 131, 0.3);
+}
+</style>
