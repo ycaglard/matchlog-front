@@ -77,9 +77,9 @@ const getStatusClass = () => {
 
 <style scoped>
 .match-card {
-  background: white;
+  background: #1a1f29;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   transition: all 0.2s ease;
   display: flex;
@@ -88,19 +88,19 @@ const getStatusClass = () => {
   width: 220px;
   min-width: 220px;
   flex-shrink: 0;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2c3440;
 }
 
 .match-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  border-color: #1e3a8a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-color: #ff8000;
 }
 
 .match-image {
   width: 100%;
   height: 90px;
-  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  background: #2c3440;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,7 +119,6 @@ const getStatusClass = () => {
   font-size: 2rem;
   font-weight: 700;
   color: white;
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .match-competition {
@@ -127,9 +126,9 @@ const getStatusClass = () => {
   text-align: center;
   font-size: 0.688rem;
   font-weight: 700;
-  color: #1e3a8a;
-  background: #f8f9fa;
-  border-bottom: 2px solid #e5e7eb;
+  color: #ff8000;
+  background: #14181c;
+  border-bottom: 2px solid #2c3440;
   flex-shrink: 0;
   min-height: 40px;
   display: flex;
@@ -146,7 +145,7 @@ const getStatusClass = () => {
   flex-direction: column;
   gap: 0.75rem;
   flex-shrink: 0;
-  background: white;
+  background: #1a1f29;
 }
 
 .team-info {
@@ -166,7 +165,7 @@ const getStatusClass = () => {
 .team-name {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1e3a8a;
+  color: #cdd;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -175,15 +174,14 @@ const getStatusClass = () => {
 .score-divider {
   text-align: center;
   padding: 0.375rem 0;
-  border-top: 1px solid #f3f4f6;
-  border-bottom: 1px solid #f3f4f6;
+  border-top: 1px solid #2c3440;
+  border-bottom: 1px solid #2c3440;
 }
 
 .score {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #1e3a8a;
-  font-family: Georgia, 'Times New Roman', serif;
+  color: #ff8000;
 }
 
 .match-status-badge {
@@ -197,24 +195,24 @@ const getStatusClass = () => {
 }
 
 .status-scheduled {
-  background: #dbeafe;
-  color: #1e40af;
+  background: rgba(255, 128, 0, 0.15);
+  color: #ff8000;
 }
 
 .status-live {
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(255, 128, 0, 0.1);
+  color: #ff8000;
   animation: pulse 2s infinite;
 }
 
 .status-finished {
-  background: #d1fae5;
-  color: #065f46;
+  background: rgba(0, 220, 130, 0.15);
+  color: #00dc82;
 }
 
 .status-default {
-  background: #f3f4f6;
-  color: #6b7280;
+  background: #2c3440;
+  color: #9ab;
 }
 
 @keyframes pulse {
@@ -229,59 +227,22 @@ const getStatusClass = () => {
 .match-date {
   padding: 0.625rem 0.75rem;
   text-align: center;
-  color: #6b7280;
+  color: #9ab;
   font-size: 0.75rem;
   flex-shrink: 0;
-  border-top: 1px solid #e5e7eb;
-  background: #fafbfc;
+  border-top: 1px solid #2c3440;
+  background: #14181c;
   line-height: 1.4;
 }
 
 .match-comments {
   padding: 0.5rem 0.75rem;
   text-align: center;
-  color: #6b7280;
+  color: #9ab;
   font-size: 0.75rem;
   flex-shrink: 0;
   font-weight: 500;
 }
 
-@media (prefers-color-scheme: dark) {
-  .match-card {
-    background: #1f2937;
-    border-color: #374151;
-  }
 
-  .match-card:hover {
-    border-color: #60a5fa;
-  }
-
-  .match-competition {
-    background: #111827;
-    border-bottom-color: #374151;
-    color: #60a5fa;
-  }
-
-  .match-teams {
-    background: #1f2937;
-  }
-
-  .team-name {
-    color: #f9fafb;
-  }
-
-  .score {
-    color: #60a5fa;
-  }
-
-  .match-date {
-    background: #111827;
-    border-top-color: #374151;
-    color: #9ca3af;
-  }
-
-  .match-comments {
-    color: #9ca3af;
-  }
-}
 </style>

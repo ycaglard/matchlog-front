@@ -149,7 +149,7 @@ onMounted(async () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,14 +158,14 @@ onMounted(async () => {
 }
 
 .list-selector-content {
-  background: white;
+  background: #1a1f29;
   border-radius: 12px;
   max-width: 450px;
   width: 100%;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .selector-header {
@@ -173,21 +173,21 @@ onMounted(async () => {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #e1e8ed;
+  border-bottom: 1px solid #2c3440;
 }
 
 .selector-header h3 {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .close-button {
   background: none;
   border: none;
   font-size: 24px;
-  color: #657786;
+  color: #9ab;
   cursor: pointer;
   padding: 4px;
   line-height: 1;
@@ -195,7 +195,7 @@ onMounted(async () => {
 }
 
 .close-button:hover {
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .selector-body {
@@ -208,15 +208,15 @@ onMounted(async () => {
 .error {
   text-align: center;
   padding: 20px;
-  color: #657786;
+  color: #9ab;
 }
 
 .spinner-small {
   width: 24px;
   height: 24px;
   margin: 0 auto 12px;
-  border: 3px solid #e1e8ed;
-  border-top-color: #42b983;
+  border: 3px solid #2c3440;
+  border-top-color: #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -236,7 +236,7 @@ onMounted(async () => {
   margin: 0 0 12px 0;
   font-size: 14px;
   font-weight: 600;
-  color: #657786;
+  color: #9ab;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -253,8 +253,8 @@ onMounted(async () => {
   align-items: center;
   gap: 8px;
   padding: 16px 8px;
-  background: white;
-  border: 2px solid #e1e8ed;
+  background: #14181c;
+  border: 2px solid #2c3440;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -262,13 +262,13 @@ onMounted(async () => {
 }
 
 .quick-btn:hover:not(:disabled) {
-  border-color: #42b983;
+  border-color: #ff8000;
   transform: translateY(-2px);
 }
 
 .quick-btn.in-list {
-  border-color: #42b983;
-  background: #f0fdf9;
+  border-color: #00dc82;
+  background: rgba(0, 220, 130, 0.1);
 }
 
 .quick-btn:disabled {
@@ -283,7 +283,7 @@ onMounted(async () => {
 .quick-btn .name {
   font-size: 12px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .quick-btn .check {
@@ -292,8 +292,8 @@ onMounted(async () => {
   right: 4px;
   width: 20px;
   height: 20px;
-  background: #42b983;
-  color: white;
+  background: #00dc82;
+  color: #14181c;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -312,8 +312,8 @@ onMounted(async () => {
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: white;
-  border: 1px solid #e1e8ed;
+  background: #14181c;
+  border: 1px solid #2c3440;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -321,13 +321,13 @@ onMounted(async () => {
 }
 
 .list-item:hover:not(:disabled) {
-  border-color: #42b983;
-  background: #f5f8fa;
+  border-color: #ff8000;
+  background: #1a1f29;
 }
 
 .list-item.in-list {
-  border-color: #42b983;
-  background: #f0fdf9;
+  border-color: #00dc82;
+  background: rgba(0, 220, 130, 0.1);
 }
 
 .list-item:disabled {
@@ -349,19 +349,19 @@ onMounted(async () => {
 .list-info .name {
   font-size: 15px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .list-info .count {
   font-size: 12px;
-  color: #657786;
+  color: #9ab;
 }
 
 .list-item .check {
   width: 24px;
   height: 24px;
-  background: #42b983;
-  color: white;
+  background: #00dc82;
+  color: #14181c;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -376,10 +376,10 @@ onMounted(async () => {
   justify-content: center;
   gap: 8px;
   padding: 14px;
-  background: #f0f4f8;
-  border: 2px dashed #cbd5e0;
+  background: #14181c;
+  border: 2px dashed #445566;
   border-radius: 8px;
-  color: #2c3e50;
+  color: #cdd;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -387,9 +387,9 @@ onMounted(async () => {
 }
 
 .create-new-btn:hover {
-  background: #e1e8ed;
-  border-color: #42b983;
-  color: #42b983;
+  background: #1a1f29;
+  border-color: #ff8000;
+  color: #ff8000;
 }
 
 .create-new-btn .icon {

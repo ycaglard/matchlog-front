@@ -62,9 +62,9 @@ const getEventImage = () => {
 
 <style scoped>
 .event-card {
-  background: white;
+  background: #1a1f29;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   transition: all 0.3s ease;
   display: flex;
@@ -78,7 +78,7 @@ const getEventImage = () => {
 
 .event-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .event-image {
@@ -86,7 +86,7 @@ const getEventImage = () => {
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  background: #f3f4f6;
+  background: #2c3440;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,12 +111,12 @@ const getEventImage = () => {
 .team {
   font-size: 0.875rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #cdd;
 }
 
 .vs {
   font-size: 0.625rem;
-  color: #6b7280;
+  color: #9ab;
   font-weight: 500;
   text-transform: lowercase;
 }
@@ -126,8 +126,8 @@ const getEventImage = () => {
   text-align: center;
   font-size: 0.625rem;
   font-weight: 600;
-  color: #1e3a8a;
-  background: #dbeafe;
+  color: #ff8000;
+  background: rgba(255, 128, 0, 0.1);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   flex-shrink: 0;
@@ -136,50 +136,20 @@ const getEventImage = () => {
 .event-date {
   padding: 0.5rem 0.625rem;
   text-align: center;
-  color: #6b7280;
+  color: #9ab;
   font-size: 0.75rem;
   flex-shrink: 0;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #2c3440;
 }
 
 .event-comments {
   padding: 0.5rem 0.625rem 0.875rem;
   text-align: center;
-  color: #6b7280;
+  color: #9ab;
   font-size: 0.75rem;
   flex-shrink: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  .event-card {
-    background: #1f2937;
-  }
 
-  .event-image {
-    background: #111827;
-  }
-
-  .team {
-    color: #60a5fa;
-  }
-
-  .vs {
-    color: #9ca3af;
-  }
-
-  .event-type-badge {
-    background: #1e3a8a;
-    color: #dbeafe;
-  }
-
-  .event-date,
-  .event-comments {
-    color: #9ca3af;
-  }
-
-  .event-date {
-    border-top-color: #374151;
-  }
-}
 </style>
 

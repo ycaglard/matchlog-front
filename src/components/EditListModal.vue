@@ -136,7 +136,7 @@ const handleSubmit = async () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -145,13 +145,13 @@ const handleSubmit = async () => {
 }
 
 .modal-content {
-  background: white;
+  background: #1a1f29;
   border-radius: 12px;
   max-width: 500px;
   width: 100%;
   max-height: 90vh;
   overflow: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .modal-header {
@@ -159,21 +159,21 @@ const handleSubmit = async () => {
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  border-bottom: 1px solid #e1e8ed;
+  border-bottom: 1px solid #2c3440;
 }
 
 .modal-header h2 {
   margin: 0;
   font-size: 24px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .close-button {
   background: none;
   border: none;
   font-size: 24px;
-  color: #657786;
+  color: #9ab;
   cursor: pointer;
   padding: 4px;
   line-height: 1;
@@ -181,7 +181,7 @@ const handleSubmit = async () => {
 }
 
 .close-button:hover {
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .modal-body {
@@ -196,16 +196,16 @@ const handleSubmit = async () => {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
   font-size: 14px;
 }
 
 .required {
-  color: #e53e3e;
+  color: #ff8000;
 }
 
 .optional {
-  color: #657786;
+  color: #9ab;
   font-weight: 400;
 }
 
@@ -213,23 +213,26 @@ const handleSubmit = async () => {
 .form-textarea {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #e1e8ed;
+  border: 1px solid #2c3440;
   border-radius: 6px;
   font-size: 16px;
   font-family: inherit;
   transition: border-color 0.2s ease;
+  background: #14181c;
+  color: #cdd;
 }
 
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #42b983;
+  border-color: #ff8000;
 }
 
 .form-input:disabled,
 .form-textarea:disabled {
-  background: #f5f8fa;
+  background: #0d1117;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .form-textarea {
@@ -240,15 +243,15 @@ const handleSubmit = async () => {
 .form-hint {
   margin-top: 4px;
   font-size: 12px;
-  color: #657786;
+  color: #678;
 }
 
 .error-message {
   padding: 12px;
-  background: #fee;
-  border: 1px solid #fcc;
+  background: rgba(255, 128, 0, 0.1);
+  border: 1px solid rgba(255, 128, 0, 0.3);
   border-radius: 6px;
-  color: #e53e3e;
+  color: #ff8000;
   font-size: 14px;
   margin-bottom: 16px;
 }
@@ -275,22 +278,22 @@ const handleSubmit = async () => {
 }
 
 .button-secondary {
-  background: #f0f4f8;
-  color: #2c3e50;
+  background: #2c3440;
+  color: #cdd;
 }
 
 .button-secondary:hover:not(:disabled) {
-  background: #e1e8ed;
+  background: #445566;
 }
 
 .button-primary {
-  background: #42b983;
-  color: white;
+  background: #ff8000;
+  color: #14181c;
 }
 
 .button-primary:hover:not(:disabled) {
-  background: #38a374;
+  background: #ff9500;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(66, 185, 131, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 128, 0, 0.4);
 }
 </style>

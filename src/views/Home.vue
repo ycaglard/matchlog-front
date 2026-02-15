@@ -265,7 +265,7 @@ const handleViewDetails = (match) => {
 .main-content {
   flex: 1;
   width: 100%;
-  background: #f8f9fa;
+  background: #14181c;
   min-height: 100vh;
   padding-top: 2rem;
 }
@@ -277,16 +277,18 @@ const handleViewDetails = (match) => {
   margin: 0 auto 2rem;
   padding: 2rem;
   text-align: center;
-  background: white;
+  background: #1a1f29;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2c3440;
+  color: #9ab;
 }
 
 .loading-spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f3f4f6;
-  border-top: 4px solid #1e3a8a;
+  border: 4px solid #445566;
+  border-top: 4px solid #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1rem;
@@ -299,17 +301,18 @@ const handleViewDetails = (match) => {
 
 .loading-container p,
 .error-container p {
-  color: #6b7280;
+  color: #9ab;
   font-size: 1.125rem;
   margin: 0;
 }
 
 .error-container {
-  background: #fee2e2;
+  background: #2c1a1a;
+  border-color: #4a2c2c;
 }
 
 .error-container p {
-  color: #991b1b;
+  color: #ff8000;
   font-weight: 500;
 }
 
@@ -336,18 +339,17 @@ const handleViewDetails = (match) => {
 .section-header h2 {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  font-family: Georgia, 'Times New Roman', serif;
   white-space: nowrap;
 }
 
 .section-divider {
   flex: 1;
   height: 2px;
-  background: linear-gradient(to right, #1e3a8a, transparent);
+  background: linear-gradient(to right, #ff8000, transparent);
 }
 
 /* Carousel Layout */
@@ -369,32 +371,32 @@ const handleViewDetails = (match) => {
 }
 
 .events-grid::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  background: rgba(73, 77, 83, 0.7);
+  background: #2c3440;
   border-radius: 10px;
 }
 
 .events-grid::-webkit-scrollbar-thumb {
-  background: #6b7280;
+  background: #445566;
   border-radius: 10px;
   transition: background 0.2s ease;
 }
 
 .events-grid::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: #ff8000;
 }
 
 /* No Results State */
 .no-results {
   padding: 3rem 2rem;
   text-align: center;
-  background: white;
+  background: #1a1f29;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2c3440;
 }
 
 .no-results p {
-  color: #9ca3af;
+  color: #678;
   font-size: 1.125rem;
   margin: 0;
   font-weight: 500;

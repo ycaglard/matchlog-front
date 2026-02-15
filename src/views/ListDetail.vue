@@ -306,8 +306,8 @@ watch(() => route.params.id, () => {
   width: 50px;
   height: 50px;
   margin: 0 auto 20px;
-  border: 4px solid #e1e8ed;
-  border-top-color: #42b983;
+  border: 4px solid #2c3440;
+  border-top-color: #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -317,13 +317,13 @@ watch(() => route.params.id, () => {
 }
 
 .error-message {
-  color: #e53e3e;
+  color: #ff8000;
   margin-bottom: 16px;
 }
 
 .retry-button {
   padding: 10px 20px;
-  background: #42b983;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 6px;
@@ -336,8 +336,8 @@ watch(() => route.params.id, () => {
 
 .back-button {
   padding: 8px 16px;
-  background: #f0f4f8;
-  color: #2c3e50;
+  background: #2c3440;
+  color: #cdd;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -348,7 +348,7 @@ watch(() => route.params.id, () => {
 }
 
 .back-button:hover {
-  background: #e1e8ed;
+  background: #445566;
 }
 
 .list-title-section {
@@ -371,11 +371,11 @@ watch(() => route.params.id, () => {
   margin: 0;
   font-size: 36px;
   font-weight: 700;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .default-badge {
-  background: #42b983;
+  background: #00dc82;
   color: white;
   font-size: 12px;
   font-weight: 600;
@@ -387,7 +387,7 @@ watch(() => route.params.id, () => {
 .list-description {
   margin: 0;
   font-size: 16px;
-  color: #657786;
+  color: #9ab;
   line-height: 1.5;
 }
 
@@ -415,29 +415,29 @@ watch(() => route.params.id, () => {
 }
 
 .edit-btn {
-  background: #f0f4f8;
-  color: #2c3e50;
+  background: #2c3440;
+  color: #cdd;
 }
 
 .edit-btn:hover {
-  background: #e1e8ed;
+  background: #445566;
 }
 
 .delete-btn {
-  background: #fee;
-  color: #e53e3e;
+  background: rgba(255, 128, 0, 0.15);
+  color: #ff8000;
 }
 
 .delete-btn:hover {
-  background: #fdd;
+  background: rgba(255, 128, 0, 0.25);
 }
 
 .stats-bar {
   display: flex;
   gap: 24px;
   padding: 20px;
-  background: white;
-  border: 1px solid #e1e8ed;
+  background: #1a1f29;
+  border: 1px solid #2c3440;
   border-radius: 12px;
   margin-bottom: 32px;
   flex-wrap: wrap;
@@ -448,7 +448,7 @@ watch(() => route.params.id, () => {
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #657786;
+  color: #9ab;
 }
 
 .stat-icon {
@@ -458,11 +458,11 @@ watch(() => route.params.id, () => {
 .stat-value {
   font-size: 20px;
   font-weight: 700;
-  color: #2c3e50;
+  color: #ff8000;
 }
 
 .stat-label {
-  color: #657786;
+  color: #9ab;
 }
 
 .section-header {
@@ -475,14 +475,14 @@ watch(() => route.params.id, () => {
 .section-header h2 {
   font-size: 24px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
   margin: 0;
 }
 
 .add-match-btn,
 .add-match-btn-large {
   padding: 10px 20px;
-  background: #42b983;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 6px;
@@ -494,7 +494,7 @@ watch(() => route.params.id, () => {
 
 .add-match-btn:hover,
 .add-match-btn-large:hover {
-  background: #38a374;
+  background: #ff9500;
   transform: translateY(-1px);
 }
 
@@ -504,14 +504,14 @@ watch(() => route.params.id, () => {
   justify-content: center;
   gap: 12px;
   padding: 40px;
-  color: #657786;
+  color: #9ab;
 }
 
 .spinner-small {
   width: 24px;
   height: 24px;
-  border: 3px solid #e1e8ed;
-  border-top-color: #42b983;
+  border: 3px solid #2c3440;
+  border-top-color: #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -519,8 +519,8 @@ watch(() => route.params.id, () => {
 .empty-matches {
   text-align: center;
   padding: 60px 20px;
-  background: white;
-  border: 2px dashed #e1e8ed;
+  background: #1a1f29;
+  border: 2px dashed #2c3440;
   border-radius: 12px;
 }
 
@@ -531,12 +531,12 @@ watch(() => route.params.id, () => {
 
 .empty-matches h3 {
   font-size: 20px;
-  color: #2c3e50;
+  color: #cdd;
   margin-bottom: 8px;
 }
 
 .empty-matches p {
-  color: #657786;
+  color: #9ab;
   margin-bottom: 20px;
 }
 
@@ -556,7 +556,7 @@ watch(() => route.params.id, () => {
   right: 8px;
   width: 32px;
   height: 32px;
-  background: rgba(229, 62, 62, 0.9);
+  background: rgba(255, 128, 0, 0.9);
   color: white;
   border: none;
   border-radius: 50%;
@@ -575,7 +575,7 @@ watch(() => route.params.id, () => {
 }
 
 .remove-match-btn:hover {
-  background: rgba(197, 48, 48, 1);
+  background: rgba(255, 128, 0, 1);
   transform: scale(1.1);
 }
 
@@ -585,7 +585,7 @@ watch(() => route.params.id, () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -594,11 +594,11 @@ watch(() => route.params.id, () => {
 }
 
 .modal-content {
-  background: white;
+  background: #1a1f29;
   border-radius: 12px;
   max-width: 500px;
   width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .modal-header {
@@ -606,21 +606,21 @@ watch(() => route.params.id, () => {
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  border-bottom: 1px solid #e1e8ed;
+  border-bottom: 1px solid #2c3440;
 }
 
 .modal-header h2 {
   margin: 0;
   font-size: 24px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .close-button {
   background: none;
   border: none;
   font-size: 24px;
-  color: #657786;
+  color: #9ab;
   cursor: pointer;
 }
 
@@ -638,7 +638,7 @@ watch(() => route.params.id, () => {
 }
 
 .button-primary {
-  background: #42b983;
+  background: #ff8000;
   color: white;
 }
 

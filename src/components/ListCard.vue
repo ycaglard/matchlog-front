@@ -66,19 +66,19 @@ const canEdit = computed(() => {
 
 <style scoped>
 .list-card {
-  background: white;
-  border: 1px solid #e1e8ed;
+  background: #1a1f29;
+  border: 1px solid #2c3440;
   border-radius: 12px;
   padding: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .list-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-color: #42b983;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: #ff8000;
 }
 
 .list-header {
@@ -98,12 +98,12 @@ const canEdit = computed(() => {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .default-badge {
-  background: #42b983;
-  color: white;
+  background: #00dc82;
+  color: #14181c;
   font-size: 11px;
   font-weight: 600;
   padding: 4px 8px;
@@ -114,7 +114,7 @@ const canEdit = computed(() => {
 
 .list-description {
   margin: 0 0 16px 0;
-  color: #657786;
+  color: #9ab;
   font-size: 14px;
   line-height: 1.5;
   overflow: hidden;
@@ -135,7 +135,7 @@ const canEdit = computed(() => {
   gap: 20px;
   margin-bottom: 16px;
   padding-top: 12px;
-  border-top: 1px solid #e1e8ed;
+  border-top: 1px solid #2c3440;
 }
 
 .stat {
@@ -143,7 +143,7 @@ const canEdit = computed(() => {
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #657786;
+  color: #9ab;
 }
 
 .stat-icon {
@@ -152,18 +152,18 @@ const canEdit = computed(() => {
 
 .stat-value {
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .stat-label {
-  color: #657786;
+  color: #9ab;
 }
 
 .list-actions {
   display: flex;
   gap: 8px;
   padding-top: 12px;
-  border-top: 1px solid #e1e8ed;
+  border-top: 1px solid #2c3440;
 }
 
 .action-button {
@@ -182,21 +182,21 @@ const canEdit = computed(() => {
 }
 
 .edit-button {
-  background: #f0f4f8;
-  color: #2c3e50;
+  background: #2c3440;
+  color: #cdd;
 }
 
 .edit-button:hover {
-  background: #e1e8ed;
+  background: #445566;
 }
 
 .delete-button {
-  background: #fee;
-  color: #e53e3e;
+  background: rgba(255, 128, 0, 0.1);
+  color: #ff8000;
 }
 
 .delete-button:hover:not(:disabled) {
-  background: #fdd;
+  background: rgba(255, 128, 0, 0.2);
 }
 
 .delete-button:disabled {

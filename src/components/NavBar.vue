@@ -186,12 +186,13 @@ onMounted(() => {
 
 <style scoped>
 .navbar {
-  background: #1e3a8a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #1a1f29;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
+  border-bottom: 1px solid #2c3440;
 }
 
 .navbar-container {
@@ -241,23 +242,25 @@ onMounted(() => {
 
 .nav-links a,
 .nav-links .router-link-active {
-  color: white;
+  color: #9ab;
   text-decoration: none;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: 4px;
   transition: all 0.3s ease;
   position: relative;
 }
 
 .nav-links a:hover,
 .nav-links .router-link-active:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 128, 0, 0.1);
+  color: #ff8000;
   transform: translateY(-2px);
 }
 
 .nav-links .router-link-active {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 128, 0, 0.15);
+  color: #ff8000;
   font-weight: 600;
 }
 
@@ -269,23 +272,25 @@ onMounted(() => {
   transform: translateX(-50%);
   width: 60%;
   height: 2px;
-  background-color: white;
+  background-color: #ff8000;
   border-radius: 2px;
 }
 
 .login-link {
-  background-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(255, 128, 0, 0.1) !important;
+  color: #ff8000 !important;
 }
 
 .register-link {
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: #1e3a8a !important;
+  background: #ff8000 !important;
+  color: white !important;
   font-weight: 600 !important;
 }
 
 .register-link:hover {
-  background: white !important;
+  background: #e67700 !important;
   transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(255, 128, 0, 0.3) !important;
 }
 
 .lists-link {
@@ -308,22 +313,24 @@ onMounted(() => {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  background-color: rgba(255, 128, 0, 0.1);
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease;
+  border: 1px solid transparent;
 }
 
 .user-info-display:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 128, 0, 0.15);
+  border-color: #ff8000;
 }
 
 .user-avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
-  color: #1e3a8a;
+  background: linear-gradient(135deg, #ff8000 0%, #ffb347 100%);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -332,13 +339,13 @@ onMounted(() => {
 }
 
 .username-display {
-  color: white;
+  color: #cdd;
   font-weight: 500;
   font-size: 0.9rem;
 }
 
 .dropdown-arrow {
-  color: white;
+  color: #9ab;
   font-size: 0.7rem;
   margin-left: 0.25rem;
 }
@@ -347,23 +354,24 @@ onMounted(() => {
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  background: white;
+  background: #2c3440;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   min-width: 200px;
   z-index: 1001;
   overflow: hidden;
+  border: 1px solid #445566;
 }
 
 .dropdown-header {
   padding: 1rem;
-  background: #f9fafb;
+  background: #1a1f29;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .dropdown-header:hover {
-  background: #e5e7eb;
+  background: rgba(255, 128, 0, 0.1);
 }
 
 .dropdown-user-info {
@@ -374,18 +382,18 @@ onMounted(() => {
 
 .dropdown-username {
   font-weight: 600;
-  color: #1e3a8a;
+  color: #ff8000;
   font-size: 0.9rem;
 }
 
 .dropdown-email {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #9ab;
 }
 
 .dropdown-divider {
   height: 1px;
-  background: #e5e7eb;
+  background: #445566;
 }
 
 .logout-button {
@@ -393,7 +401,7 @@ onMounted(() => {
   padding: 0.75rem 1rem;
   background: transparent;
   border: none;
-  color: #ef4444;
+  color: #ff8000;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -402,7 +410,7 @@ onMounted(() => {
 }
 
 .logout-button:hover {
-  background: #fee2e2;
+  background: rgba(255, 128, 0, 0.1);
 }
 
 .mobile-menu-toggle {
@@ -450,7 +458,7 @@ onMounted(() => {
     top: 64px;
     left: 0;
     right: 0;
-    background: #1e3a8a;
+    background: #1a1f29;
     flex-direction: column;
     gap: 0;
     padding: 1rem 0;
@@ -458,7 +466,8 @@ onMounted(() => {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #2c3440;
   }
 
   .nav-links.mobile-open {
@@ -486,7 +495,7 @@ onMounted(() => {
 
 @media (prefers-color-scheme: light) {
   .navbar {
-    background: #1e3a8a;
+    background: #1a1f29;
   }
 }
 </style>

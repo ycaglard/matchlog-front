@@ -288,7 +288,7 @@ const calculateAge = (dateOfBirth) => {
   width: 100%;
   margin: 0;
   padding: 0;
-  background: #f8f9fa;
+  background: #14181c;
   min-height: 100vh;
 }
 
@@ -296,7 +296,7 @@ const calculateAge = (dateOfBirth) => {
 .error-container {
   text-align: center;
   padding: 4rem 2rem;
-  background: white;
+  background: #1a1f29;
   margin: 2rem;
   border-radius: 8px;
 }
@@ -304,8 +304,8 @@ const calculateAge = (dateOfBirth) => {
 .loading-spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f3f4f6;
-  border-top: 4px solid #1e3a8a;
+  border: 4px solid #2c3440;
+  border-top: 4px solid #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1rem;
@@ -317,14 +317,14 @@ const calculateAge = (dateOfBirth) => {
 }
 
 .error-container h2 {
-  color: #ef4444;
+  color: #ff8000;
   margin-bottom: 1rem;
 }
 
 .back-button {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -334,13 +334,13 @@ const calculateAge = (dateOfBirth) => {
 }
 
 .back-button:hover {
-  background: #1e40af;
+  background: #ff9500;
 }
 
 /* Hero Header - Classic Banner Style */
 .team-hero {
   position: relative;
-  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  background: #2c3440;
   color: white;
   padding: 3rem 2rem;
   overflow: hidden;
@@ -431,10 +431,10 @@ const calculateAge = (dateOfBirth) => {
 }
 
 .info-card {
-  background: white;
+  background: #1a1f29;
   border-radius: 6px;
   padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Main Column */
@@ -445,10 +445,10 @@ const calculateAge = (dateOfBirth) => {
 }
 
 .content-section {
-  background: white;
+  background: #1a1f29;
   border-radius: 8px;
   padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Section Headers - Classic Typography */
@@ -463,23 +463,22 @@ const calculateAge = (dateOfBirth) => {
 .section-header h2 {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .squad-count {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ab;
   font-weight: 500;
 }
 
 .section-divider {
   flex: 1;
   height: 2px;
-  background: linear-gradient(to right, #1e3a8a, transparent);
+  background: linear-gradient(to right, #ff8000, transparent);
 }
 
 /* Competition Details */
@@ -502,7 +501,7 @@ const calculateAge = (dateOfBirth) => {
 }
 
 .season-details {
-  border-left: 3px solid #1e3a8a;
+  border-left: 3px solid #ff8000;
   padding-left: 1rem;
 }
 
@@ -510,7 +509,7 @@ const calculateAge = (dateOfBirth) => {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #2c3440;
 }
 
 .detail-row:last-child {
@@ -519,12 +518,12 @@ const calculateAge = (dateOfBirth) => {
 
 .detail-label {
   font-weight: 600;
-  color: #4b5563;
+  color: #9ab;
   font-size: 0.813rem;
 }
 
 .detail-value {
-  color: #1f2937;
+  color: #cdd;
   font-size: 0.813rem;
 }
 
@@ -536,7 +535,7 @@ const calculateAge = (dateOfBirth) => {
 .coach-name {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #cdd;
   margin: 0 0 0.75rem 0;
 }
 
@@ -549,7 +548,7 @@ const calculateAge = (dateOfBirth) => {
 .contract-row {
   margin-top: 0.5rem;
   padding-top: 1.5rem;
-  border-top: 2px solid #e5e7eb;
+  border-top: 2px solid #2c3440;
 }
 
 /* Squad List - Classic Table-like Layout */
@@ -563,12 +562,12 @@ const calculateAge = (dateOfBirth) => {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #2c3440;
   transition: background-color 0.2s ease;
 }
 
 .player-row:hover {
-  background-color: #f9fafb;
+  background-color: #14181c;
 }
 
 .player-row:last-child {
@@ -581,7 +580,7 @@ const calculateAge = (dateOfBirth) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   border-radius: 4px;
   font-size: 1.125rem;
@@ -609,7 +608,7 @@ const calculateAge = (dateOfBirth) => {
 .player-name-text {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #cdd;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -618,7 +617,7 @@ const calculateAge = (dateOfBirth) => {
 
 .player-position-text {
   font-size: 0.875rem;
-  color: #1e3a8a;
+  color: #ff8000;
   font-weight: 500;
   white-space: nowrap;
 }
@@ -627,7 +626,7 @@ const calculateAge = (dateOfBirth) => {
   display: flex;
   gap: 1rem;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ab;
   flex-shrink: 0;
 }
 
@@ -639,7 +638,7 @@ const calculateAge = (dateOfBirth) => {
 .sidebar-title {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #6b7280;
+  color: #9ab;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0 0 0.75rem 0;
@@ -657,7 +656,7 @@ const calculateAge = (dateOfBirth) => {
   height: 80px;
   object-fit: contain;
   border-radius: 4px;
-  background: #f9fafb;
+  background: #14181c;
 }
 
 .location-info {
@@ -669,23 +668,23 @@ const calculateAge = (dateOfBirth) => {
 .location-name {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #cdd;
   margin: 0;
 }
 
 .location-address {
   font-size: 0.813rem;
-  color: #6b7280;
+  color: #9ab;
   line-height: 1.5;
   margin: 0;
 }
 
 /* Matches Section - Full Width */
 .matches-section-full {
-  background: white;
+  background: #1a1f29;
   border-radius: 6px;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .matches-section {
@@ -697,8 +696,9 @@ const calculateAge = (dateOfBirth) => {
   font-weight: 500;
   margin-left: auto;
   padding: 0.25rem 0.75rem;
-  background: rgba(30, 58, 138, 0.1);
+  background: rgba(255, 128, 0, 0.15);
   border-radius: 12px;
+  color: #ff8000;
 }
 
 .matches-loading {
@@ -713,8 +713,8 @@ const calculateAge = (dateOfBirth) => {
 .loading-spinner-small {
   width: 40px;
   height: 40px;
-  border: 3px solid #f3f4f6;
-  border-top: 3px solid #1e3a8a;
+  border: 3px solid #2c3440;
+  border-top: 3px solid #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -728,7 +728,7 @@ const calculateAge = (dateOfBirth) => {
 
 /* Website Card */
 .website-card {
-  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  background: #2c3440;
   color: white;
 }
 
@@ -744,8 +744,8 @@ const calculateAge = (dateOfBirth) => {
   gap: 0.5rem;
   width: 100%;
   padding: 0.625rem;
-  background: white;
-  color: #1e3a8a;
+  background: #ff8000;
+  color: white;
   border-radius: 4px;
   text-decoration: none;
   font-weight: 600;
@@ -754,9 +754,9 @@ const calculateAge = (dateOfBirth) => {
 }
 
 .website-button:hover {
-  background: #f9fafb;
+  background: #ff9500;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsive Design */

@@ -123,7 +123,7 @@ const goToRegister = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #14181c;
   padding: 2rem;
 }
 
@@ -133,10 +133,11 @@ const goToRegister = () => {
 }
 
 .login-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: #1a1f29;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   padding: 3rem;
+  border: 1px solid #2c3440;
 }
 
 .login-header {
@@ -147,13 +148,13 @@ const goToRegister = () => {
 .login-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0 0 0.5rem 0;
 }
 
 .login-subtitle {
   font-size: 1rem;
-  color: #6b7280;
+  color: #9ab;
   margin: 0;
 }
 
@@ -165,12 +166,12 @@ const goToRegister = () => {
 
 .error-message {
   padding: 1rem;
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(255, 128, 0, 0.1);
+  color: #ff8000;
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 500;
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(255, 128, 0, 0.3);
 }
 
 .form-group {
@@ -182,27 +183,30 @@ const goToRegister = () => {
 .form-label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
+  color: #cdd;
 }
 
 .form-input {
   padding: 0.875rem 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid #445566;
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.2s ease;
   font-family: inherit;
+  background: #2c3440;
+  color: #cdd;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #ff8000;
+  box-shadow: 0 0 0 3px rgba(255, 128, 0, 0.1);
 }
 
 .form-input:disabled {
-  background: #f3f4f6;
+  background: #1a1f29;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .form-group-checkbox {
@@ -215,7 +219,7 @@ const goToRegister = () => {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #374151;
+  color: #9ab;
   cursor: pointer;
 }
 
@@ -223,11 +227,12 @@ const goToRegister = () => {
   width: 18px;
   height: 18px;
   cursor: pointer;
+  accent-color: #ff8000;
 }
 
 .login-button {
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -240,11 +245,12 @@ const goToRegister = () => {
 
 .login-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+  background: #e67700;
+  box-shadow: 0 10px 20px rgba(255, 128, 0, 0.3);
 }
 
 .login-button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
@@ -253,17 +259,17 @@ const goToRegister = () => {
   margin-top: 2rem;
   text-align: center;
   padding-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #2c3440;
 }
 
 .register-prompt {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ab;
   margin: 0;
 }
 
 .register-link {
-  color: #667eea;
+  color: #ff8000;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -271,7 +277,7 @@ const goToRegister = () => {
 }
 
 .register-link:hover {
-  color: #764ba2;
+  color: #ffb347;
   text-decoration: underline;
 }
 
@@ -290,55 +296,6 @@ const goToRegister = () => {
 }
 
 @media (prefers-color-scheme: dark) {
-  .login-card {
-    background: #1f2937;
-  }
-
-  .login-title {
-    color: #60a5fa;
-  }
-
-  .login-subtitle {
-    color: #9ca3af;
-  }
-
-  .form-label {
-    color: #d1d5db;
-  }
-
-  .form-input {
-    background: #111827;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .form-input:focus {
-    border-color: #60a5fa;
-    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
-  }
-
-  .form-input:disabled {
-    background: #0f172a;
-  }
-
-  .checkbox-label {
-    color: #d1d5db;
-  }
-
-  .login-footer {
-    border-top-color: #374151;
-  }
-
-  .register-prompt {
-    color: #9ca3af;
-  }
-
-  .register-link {
-    color: #60a5fa;
-  }
-
-  .register-link:hover {
-    color: #93c5fd;
-  }
+  /* Styles already dark */
 }
 </style>

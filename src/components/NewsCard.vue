@@ -55,9 +55,9 @@ const formatDate = (dateString) => {
 
 <style scoped>
 .news-card {
-  background: white;
+  background: #1a1f29;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -66,20 +66,20 @@ const formatDate = (dateString) => {
   width: 340px;
   min-width: 340px;
   flex-shrink: 0;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2c3440;
 }
 
 .news-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  border-color: #1e3a8a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-color: #ff8000;
 }
 
 .news-image {
   width: 100%;
   height: 190px;
   overflow: hidden;
-  background: #f3f4f6;
+  background: #2c3440;
   position: relative;
 }
 
@@ -100,26 +100,26 @@ const formatDate = (dateString) => {
   flex-direction: column;
   gap: 0.75rem;
   flex: 1;
-  background: white;
+  background: #1a1f29;
 }
 
 .news-title {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0;
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-family: Georgia, 'Times New Roman', serif;
+
   letter-spacing: -0.2px;
 }
 
 .news-excerpt {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ab;
   line-height: 1.6;
   margin: 0;
   display: -webkit-box;
@@ -134,21 +134,21 @@ const formatDate = (dateString) => {
   justify-content: space-between;
   align-items: center;
   padding-top: 0.75rem;
-  border-top: 2px solid #e5e7eb;
+  border-top: 2px solid #2c3440;
   margin-top: auto;
 }
 
 .news-date {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: #678;
   font-weight: 500;
 }
 
 .news-category {
   font-size: 0.688rem;
   font-weight: 700;
-  color: #1e3a8a;
-  background: #eff6ff;
+  color: #ff8000;
+  background: rgba(255, 128, 0, 0.1);
   padding: 0.375rem 0.875rem;
   border-radius: 50px;
   text-transform: uppercase;
@@ -162,44 +162,6 @@ const formatDate = (dateString) => {
   margin-right: 0.4em;
 }
 
-@media (prefers-color-scheme: dark) {
-  .news-card {
-    background: #1f2937;
-    border-color: #374151;
-  }
 
-  .news-card:hover {
-    border-color: #60a5fa;
-  }
-
-  .news-image {
-    background: #111827;
-  }
-
-  .news-content {
-    background: #1f2937;
-  }
-
-  .news-title {
-    color: #60a5fa;
-  }
-
-  .news-excerpt {
-    color: #9ca3af;
-  }
-
-  .news-meta {
-    border-top-color: #374151;
-  }
-
-  .news-date {
-    color: #6b7280;
-  }
-
-  .news-category {
-    color: #60a5fa;
-    background: #1e3a8a;
-  }
-}
 </style>
 

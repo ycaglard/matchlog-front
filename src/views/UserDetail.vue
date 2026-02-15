@@ -14,18 +14,45 @@
     <div v-else-if="user" class="user-content">
       <!-- Hero Header -->
       <div class="user-hero">
-        <div class="hero-content">
-          <div class="user-avatar">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-            </svg>
+        <div class="hero-container">
+          <!-- Left Side: Profile Info -->
+          <div class="profile-section">
+            <div class="profile-picture">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+              </svg>
+            </div>
+            <div class="profile-info">
+              <div class="username-row">
+                <h1 class="username">{{ user.username }}</h1>
+                <button class="edit-profile-btn" @click="editProfile">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                  </svg>
+                  Edit Profile
+                </button>
+              </div>
+              <p class="user-bio">{{ user.bio || 'No bio yet. Share something about yourself!' }}</p>
+            </div>
           </div>
-          <h1 class="user-name">{{ user.username }}</h1>
-          <p class="user-email">{{ user.email }}</p>
-          <div class="hero-stats" v-if="uniqueMatches > 0">
-            <div class="hero-stat-item">
-              <div class="hero-stat-value">{{ uniqueMatches }}</div>
-              <div class="hero-stat-label">Matches</div>
+          
+          <!-- Right Side: Statistics -->
+          <div class="stats-section">
+            <div class="stat-item">
+              <div class="stat-value">{{ user.followersCount || 0 }}</div>
+              <div class="stat-label">Followers</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{{ user.followingCount || 0 }}</div>
+              <div class="stat-label">Following</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{{ user.listsCount || 0 }}</div>
+              <div class="stat-label">Lists</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{{ uniqueMatches }}</div>
+              <div class="stat-label">Commented</div>
             </div>
           </div>
         </div>
@@ -283,6 +310,11 @@ const formatCommentDate = (date) => {
     minute: '2-digit'
   })
 }
+
+const editProfile = () => {
+  // TODO: Implement edit profile functionality
+  console.log('Edit profile clicked')
+}
 </script>
 
 <style scoped>
@@ -290,7 +322,7 @@ const formatCommentDate = (date) => {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0;
-  background: #f8f9fa;
+  background: #14181c;
   min-height: 100vh;
 }
 
@@ -298,16 +330,17 @@ const formatCommentDate = (date) => {
 .error-container {
   text-align: center;
   padding: 4rem 2rem;
-  background: white;
+  background: #2c3440;
   margin: 2rem;
   border-radius: 8px;
+  color: #9ab;
 }
 
 .loading-spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f3f4f6;
-  border-top: 4px solid #1e3a8a;
+  border: 4px solid #445566;
+  border-top: 4px solid #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1rem;
@@ -319,169 +352,154 @@ const formatCommentDate = (date) => {
 }
 
 .error-container h2 {
-  color: #ef4444;
+  color: #ff8000;
   margin-bottom: 1rem;
 }
 
 .back-button {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.938rem;
+  transition: all 0.2s ease;
 }
 
 .back-button:hover {
-  background: #1e40af;
+  background: #e67700;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 128, 0, 0.3);
 }
 
 /* Hero Header */
 .user-hero {
-  position: relative;
-  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-  color: white;
-  padding: 3rem 2rem;
-  text-align: center;
+  background: #1a1f29;
+  padding: 2rem;
+  border-bottom: 1px solid #2c3440;
+  margin-bottom: 2rem;
 }
 
-.hero-content {
-  position: relative;
-  z-index: 1;
+.hero-container {
+  max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
 }
 
-.user-avatar {
+/* Profile Section (Left) */
+.profile-section {
+  display: flex;
+  gap: 1.5rem;
+  flex: 1;
+  align-items: flex-start;
+}
+
+.profile-picture {
   width: 120px;
   height: 120px;
-  margin: 0 auto 1.5rem;
-  background: rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #ff8000 0%, #ffb347 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
+  border: 4px solid #2c3440;
+  box-shadow: 0 8px 16px rgba(255, 128, 0, 0.2);
 }
 
-.user-avatar svg {
-  width: 80px;
-  height: 80px;
-  opacity: 0.9;
+.profile-picture svg {
+  width: 70px;
+  height: 70px;
+  color: white;
 }
 
-.user-name {
-  font-size: 2.5rem;
+.profile-info {
+  flex: 1;
+  padding-top: 0.5rem;
+}
+
+.username-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.username {
+  font-size: 2rem;
   font-weight: 700;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
+  color: #ffffff;
   letter-spacing: -0.5px;
-  line-height: 1.1;
 }
 
-.user-email {
-  font-size: 1.125rem;
-  margin: 0 0 1.5rem 0;
-  opacity: 0.85;
-  font-weight: 300;
-}
-
-.hero-stats {
+.edit-profile-btn {
   display: flex;
-  gap: 3rem;
-  justify-content: center;
   align-items: center;
-  margin-top: 2rem;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1.5px solid #445566;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #9ab;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.hero-stat-item {
+.edit-profile-btn:hover {
+  background: rgba(255, 128, 0, 0.1);
+  border-color: #ff8000;
+  color: #ff8000;
+  transform: translateY(-1px);
+}
+
+.edit-profile-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.user-bio {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #9ab;
+  margin: 0;
+  max-width: 600px;
+}
+
+/* Statistics Section (Right) */
+.stats-section {
+  display: flex;
+  gap: 2.5rem;
+  padding: 1rem 0;
+}
+
+.stat-item {
   text-align: center;
 }
 
-.hero-stat-value {
-  font-size: 2.5rem;
+.stat-value {
+  font-size: 2rem;
   font-weight: 700;
+  color: #ff8000;
   line-height: 1;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
 }
 
-.hero-stat-label {
+.stat-label {
   font-size: 0.875rem;
+  font-weight: 500;
+  color: #9ab;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  opacity: 0.85;
-}
-
-.hero-stat-divider {
-  width: 1px;
-  height: 3rem;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.hero-stats {
-  display: flex;
-  gap: 3rem;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-}
-
-.hero-stat-item {
-  text-align: center;
-}
-
-.hero-stat-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 0.5rem;
-}
-
-.hero-stat-label {
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  opacity: 0.85;
-}
-
-.hero-stat-divider {
-  width: 1px;
-  height: 3rem;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.hero-stats {
-  display: flex;
-  gap: 3rem;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-}
-
-.hero-stat-item {
-  text-align: center;
-}
-
-.hero-stat-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 0.5rem;
-}
-
-.hero-stat-label {
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  opacity: 0.85;
-}
-
-.hero-stat-divider {
-  width: 1px;
-  height: 3rem;
-  background: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.5px;
 }
 
 /* Content Wrapper */
@@ -490,10 +508,11 @@ const formatCommentDate = (date) => {
 }
 
 .content-section {
-  background: white;
+  background: #1a1f29;
   border-radius: 8px;
   padding: 3rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2c3440;
 }
 
 /* Section Headers */
@@ -508,24 +527,23 @@ const formatCommentDate = (date) => {
 .section-header h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .section-divider {
   flex: 1;
   height: 2px;
-  background: linear-gradient(to right, #1e3a8a, transparent);
+  background: linear-gradient(to right, #ff8000, transparent);
 }
 
 /* Tab Navigation */
 .tabs-container {
   display: flex;
   gap: 0.5rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid #2c3440;
   margin-bottom: 2rem;
   flex-wrap: wrap;
 }
@@ -537,24 +555,23 @@ const formatCommentDate = (date) => {
   border-bottom: 3px solid transparent;
   font-size: 0.938rem;
   font-weight: 600;
-  color: #6b7280;
+  color: #678;
   cursor: pointer;
   transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-family: Georgia, 'Times New Roman', serif;
   position: relative;
   bottom: -2px;
 }
 
 .tab-button:hover {
-  color: #1e3a8a;
-  background: #f9fafb;
+  color: #ff8000;
+  background: rgba(255, 128, 0, 0.05);
 }
 
 .tab-button.active {
-  color: #1e3a8a;
-  border-bottom-color: #1e3a8a;
+  color: #ff8000;
+  border-bottom-color: #ff8000;
   background: transparent;
 }
 
@@ -577,7 +594,7 @@ const formatCommentDate = (date) => {
 .no-content {
   text-align: center;
   padding: 3rem 2rem;
-  color: #9ca3af;
+  color: #678;
 }
 
 .no-content svg {
@@ -601,16 +618,18 @@ const formatCommentDate = (date) => {
   grid-template-columns: 300px 1fr;
   gap: 2rem;
   padding: 1.5rem;
-  background: #fafafa;
+  background: #14181c;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2c3440;
   transition: all 0.2s ease;
   align-items: start;
 }
 
 .activity-item:hover {
-  border-color: #1e3a8a;
-  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
+  border-color: #ff8000;
+  background: #1a1f29;
+  box-shadow: 0 4px 12px rgba(255, 128, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .activity-match-card {
@@ -630,40 +649,38 @@ const formatCommentDate = (date) => {
 }
 
 .comment-bubble {
-  background: #f9fafb;
+  background: #2c3440;
   border-radius: 6px;
   padding: 1rem 1.5rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #445566;
   box-shadow: none;
   position: relative;
   transition: all 0.2s ease;
 }
 
 .comment-bubble:hover {
-  background: white;
-  border-color: #1e3a8a;
-  box-shadow: 0 1px 3px rgba(30, 58, 138, 0.1);
+  background: #1a1f29;
+  border-color: #ff8000;
+  box-shadow: 0 2px 8px rgba(255, 128, 0, 0.2);
 }
 
 .comment-bubble::before {
   content: '"';
   font-size: 2rem;
-  color: #d1d5db;
+  color: #445566;
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;
-  font-family: Georgia, 'Times New Roman', serif;
   line-height: 1;
 }
 
 .comment-bubble::after {
   content: '"';
   font-size: 2rem;
-  color: #d1d5db;
+  color: #445566;
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
-  font-family: Georgia, 'Times New Roman', serif;
   line-height: 1;
 }
 
@@ -673,7 +690,7 @@ const formatCommentDate = (date) => {
 
 .comment-date {
   font-size: 0.813rem;
-  color: #6b7280;
+  color: #9ab;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -682,7 +699,7 @@ const formatCommentDate = (date) => {
 .comment-text {
   font-size: 0.938rem;
   line-height: 1.6;
-  color: #1f2937;
+  color: #cdd;
   font-style: italic;
   padding-left: 1.5rem;
 }
@@ -708,21 +725,47 @@ const formatCommentDate = (date) => {
 
 @media (max-width: 768px) {
   .user-hero {
-    padding: 2rem 1rem;
+    padding: 1.5rem;
   }
 
-  .user-name {
-    font-size: 2rem;
+  .hero-container {
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  .user-avatar {
+  .profile-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-info {
+    width: 100%;
+  }
+
+  .username-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .username {
+    font-size: 1.75rem;
+  }
+
+  .stats-section {
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+  }
+
+  .profile-picture {
     width: 100px;
     height: 100px;
   }
 
-  .user-avatar svg {
-    width: 64px;
-    height: 64px;
+  .profile-picture svg {
+    width: 60px;
+    height: 60px;
   }
 
   .content-wrapper {
@@ -753,17 +796,28 @@ const formatCommentDate = (date) => {
 }
 
 @media (max-width: 480px) {
-  .user-name {
-    font-size: 1.75rem;
+  .username {
+    font-size: 1.5rem;
   }
 
-  .hero-stats {
-    flex-direction: column;
+  .stats-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
   }
   
-  .hero-stat-divider {
-    display: none;
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .profile-picture {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .profile-picture svg {
+    width: 50px;
+    height: 50px;
   }
 
   .activity-item {

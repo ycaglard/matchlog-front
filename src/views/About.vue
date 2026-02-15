@@ -55,22 +55,23 @@
 .about-page {
   min-height: calc(100vh - 64px);
   padding: 2rem;
-  background: #f9fafb;
+  background: #14181c;
 }
 
 .about-container {
   max-width: 900px;
   margin: 0 auto;
-  background: white;
+  background: #1a1f29;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   padding: 3rem;
+  border: 1px solid #2c3440;
 }
 
 .page-title {
   font-size: 3rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -86,14 +87,14 @@
 .about-section h2 {
   font-size: 1.75rem;
   font-weight: 600;
-  color: #1e3a8a;
+  color: #ff8000;
   margin-bottom: 1rem;
 }
 
 .about-section p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #4b5563;
+  color: #9ab;
   margin-bottom: 1rem;
 }
 
@@ -106,7 +107,7 @@
 .features-list li {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #4b5563;
+  color: #9ab;
   padding: 0.75rem 0;
   padding-left: 2rem;
   position: relative;
@@ -116,7 +117,7 @@
   content: '✓';
   position: absolute;
   left: 0;
-  color: #1e3a8a;
+  color: #ff8000;
   font-weight: 700;
   font-size: 1.2rem;
 }
@@ -146,27 +147,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .about-page {
-    background: #111827;
-  }
-
-  .about-container {
-    background: #1f2937;
-  }
-
-  .page-title,
-  .about-section h2 {
-    color: #60a5fa;
-  }
-
-  .about-section p,
-  .features-list li {
-    color: #d1d5db;
-  }
-
-  .features-list li::before {
-    color: #60a5fa;
-  }
+  /* Styles already dark */
 }
 </style>
 

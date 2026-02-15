@@ -60,7 +60,7 @@ defineEmits(['confirm', 'cancel'])
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,11 +69,11 @@ defineEmits(['confirm', 'cancel'])
 }
 
 .modal-content {
-  background: white;
+  background: #1a1f29;
   border-radius: 12px;
   max-width: 450px;
   width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .modal-header {
@@ -84,7 +84,7 @@ defineEmits(['confirm', 'cancel'])
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #cdd;
 }
 
 .modal-body {
@@ -93,7 +93,7 @@ defineEmits(['confirm', 'cancel'])
 
 .modal-body p {
   margin: 0;
-  color: #657786;
+  color: #9ab;
   line-height: 1.5;
 }
 
@@ -102,7 +102,7 @@ defineEmits(['confirm', 'cancel'])
   gap: 12px;
   justify-content: flex-end;
   padding: 16px 24px;
-  border-top: 1px solid #e1e8ed;
+  border-top: 1px solid #2c3440;
 }
 
 .button {
@@ -116,38 +116,38 @@ defineEmits(['confirm', 'cancel'])
 }
 
 .button-secondary {
-  background: #f0f4f8;
-  color: #2c3e50;
+  background: #2c3440;
+  color: #cdd;
 }
 
 .button-secondary:hover {
-  background: #e1e8ed;
+  background: #445566;
 }
 
 .button-primary {
-  background: #42b983;
-  color: white;
+  background: #ff8000;
+  color: #14181c;
 }
 
 .button-primary:hover {
-  background: #38a374;
+  background: #ff9500;
 }
 
 .button-danger {
-  background: #e53e3e;
-  color: white;
+  background: #ff8000;
+  color: #14181c;
 }
 
 .button-danger:hover {
-  background: #c53030;
+  background: #ff9500;
 }
 
 .button-warning {
-  background: #ed8936;
-  color: white;
+  background: #ff8000;
+  color: #14181c;
 }
 
 .button-warning:hover {
-  background: #dd6b20;
+  background: #ff9500;
 }
 </style>

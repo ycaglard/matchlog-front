@@ -207,7 +207,7 @@ const getEventImage = (eventType) => {
 <style scoped>
 .event-detail-container {
   min-height: 100vh;
-  background: #f9fafb;
+  background: #14181c;
 }
 
 .loading-state,
@@ -224,8 +224,8 @@ const getEventImage = (eventType) => {
 .spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #e5e7eb;
-  border-top-color: #1e3a8a;
+  border: 4px solid #2c3440;
+  border-top-color: #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -237,25 +237,25 @@ const getEventImage = (eventType) => {
 .loading-state p,
 .error-state p {
   margin-top: 1rem;
-  color: #6b7280;
+  color: #9ab;
   font-size: 1.125rem;
 }
 
 .error-state h2,
 .no-event h2 {
-  color: #991b1b;
+  color: #ff8000;
   margin-bottom: 1rem;
 }
 
 .header {
   padding: 1.5rem 2rem;
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
+  background: #1a1f29;
+  border-bottom: 1px solid #2c3440;
 }
 
 .back-button {
   padding: 0.75rem 1.5rem;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -266,7 +266,7 @@ const getEventImage = (eventType) => {
 }
 
 .back-button:hover {
-  background: #1e40af;
+  background: #ff9500;
 }
 
 .event-banner {
@@ -287,7 +287,7 @@ const getEventImage = (eventType) => {
   top: 20px;
   right: 20px;
   padding: 0.75rem 1.5rem;
-  background: rgba(30, 58, 138, 0.95);
+  background: rgba(255, 128, 0, 0.95);
   color: white;
   font-weight: 700;
   font-size: 1.25rem;
@@ -309,9 +309,9 @@ const getEventImage = (eventType) => {
   gap: 3rem;
   margin-bottom: 3rem;
   padding: 3rem;
-  background: white;
+  background: #1a1f29;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .team {
@@ -323,13 +323,13 @@ const getEventImage = (eventType) => {
 .team-name {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin-bottom: 0.5rem;
 }
 
 .team-label {
   font-size: 1rem;
-  color: #6b7280;
+  color: #9ab;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
@@ -338,24 +338,24 @@ const getEventImage = (eventType) => {
 .vs-divider {
   font-size: 2rem;
   font-weight: 700;
-  color: #9ca3af;
+  color: #678;
 }
 
 .info-section,
 .comments-section {
-  background: white;
+  background: #1a1f29;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   margin-bottom: 2rem;
 }
 
 .info-section h2,
 .comments-section h2 {
-  color: #1e3a8a;
+  color: #ff8000;
   font-size: 1.75rem;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid #2c3440;
   padding-bottom: 0.75rem;
 }
 
@@ -373,7 +373,7 @@ const getEventImage = (eventType) => {
 
 .info-label {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ab;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -381,15 +381,15 @@ const getEventImage = (eventType) => {
 
 .info-value {
   font-size: 1.125rem;
-  color: #111827;
+  color: #cdd;
   font-weight: 600;
 }
 
 .event-type-badge {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: #dbeafe;
-  color: #1e3a8a;
+  background: rgba(255, 128, 0, 0.2);
+  color: #ff8000;
   border-radius: 6px;
   font-size: 1rem;
   text-transform: uppercase;
@@ -399,54 +399,55 @@ const getEventImage = (eventType) => {
 .comments-placeholder {
   padding: 3rem;
   text-align: center;
-  color: #9ca3af;
-  background: #f9fafb;
+  color: #678;
+  background: #14181c;
   border-radius: 8px;
-  border: 2px dashed #e5e7eb;
+  border: 2px dashed #2c3440;
 }
 
 .add-comment-form {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: #f9fafb;
+  background: #14181c;
   border-radius: 8px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid #2c3440;
 }
 
 .add-comment-form h3 {
   margin: 0 0 1rem 0;
-  color: #1e3a8a;
+  color: #ff8000;
   font-size: 1.25rem;
 }
 
 .comment-textarea {
   width: 100%;
   padding: 0.875rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid #2c3440;
   border-radius: 8px;
   font-family: inherit;
   font-size: 0.9375rem;
   line-height: 1.6;
   resize: vertical;
   transition: border-color 0.2s ease;
-  background: white;
+  background: #1a1f29;
+  color: #cdd;
 }
 
 .comment-textarea:focus {
   outline: none;
-  border-color: #1e3a8a;
+  border-color: #ff8000;
 }
 
 .comment-textarea:disabled {
-  background: #f3f4f6;
+  background: #2c3440;
   cursor: not-allowed;
 }
 
 .comment-error {
   margin-top: 0.5rem;
   padding: 0.75rem;
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(255, 128, 0, 0.1);
+  color: #ff8000;
   border-radius: 6px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -455,7 +456,7 @@ const getEventImage = (eventType) => {
 .submit-comment-button {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -466,11 +467,11 @@ const getEventImage = (eventType) => {
 }
 
 .submit-comment-button:hover:not(:disabled) {
-  background: #1e40af;
+  background: #ff9500;
 }
 
 .submit-comment-button:disabled {
-  background: #9ca3af;
+  background: #678;
   cursor: not-allowed;
 }
 
@@ -481,16 +482,16 @@ const getEventImage = (eventType) => {
 }
 
 .comment-card {
-  background: #f9fafb;
+  background: #14181c;
   border-radius: 8px;
   padding: 1.25rem;
-  border-left: 4px solid #1e3a8a;
+  border-left: 4px solid #ff8000;
   transition: all 0.2s ease;
 }
 
 .comment-card:hover {
-  background: #f3f4f6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #1a1f29;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .comment-header {
@@ -510,7 +511,7 @@ const getEventImage = (eventType) => {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   display: flex;
   align-items: center;
@@ -527,13 +528,13 @@ const getEventImage = (eventType) => {
 
 .username {
   font-weight: 600;
-  color: #111827;
+  color: #cdd;
   font-size: 0.9375rem;
 }
 
 .comment-date {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #678;
 }
 
 .comment-body {
@@ -542,7 +543,7 @@ const getEventImage = (eventType) => {
 
 .comment-body p {
   margin: 0;
-  color: #374151;
+  color: #9ab;
   line-height: 1.6;
   font-size: 0.9375rem;
 }

@@ -154,7 +154,7 @@ const goToLogin = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #14181c;
   padding: 2rem;
 }
 
@@ -164,10 +164,11 @@ const goToLogin = () => {
 }
 
 .register-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: #1a1f29;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   padding: 3rem;
+  border: 1px solid #2c3440;
 }
 
 .register-header {
@@ -178,13 +179,13 @@ const goToLogin = () => {
 .register-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0 0 0.5rem 0;
 }
 
 .register-subtitle {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: #9ab;
   margin: 0;
   line-height: 1.5;
 }
@@ -197,12 +198,12 @@ const goToLogin = () => {
 
 .error-message {
   padding: 1rem;
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(255, 128, 0, 0.1);
+  color: #ff8000;
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 500;
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(255, 128, 0, 0.3);
 }
 
 .form-group {
@@ -214,40 +215,43 @@ const goToLogin = () => {
 .form-label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
+  color: #cdd;
 }
 
 .form-input {
   padding: 0.875rem 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid #445566;
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.2s ease;
   font-family: inherit;
+  background: #2c3440;
+  color: #cdd;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #ff8000;
+  box-shadow: 0 0 0 3px rgba(255, 128, 0, 0.1);
 }
 
 .form-input:disabled {
-  background: #f3f4f6;
+  background: #1a1f29;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .input-error {
-  border-color: #ef4444 !important;
+  border-color: #ff4444 !important;
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.1) !important;
 }
 
 .register-button {
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -260,11 +264,12 @@ const goToLogin = () => {
 
 .register-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+  background: #e67700;
+  box-shadow: 0 10px 20px rgba(255, 128, 0, 0.3);
 }
 
 .register-button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
@@ -273,17 +278,17 @@ const goToLogin = () => {
   margin-top: 2rem;
   text-align: center;
   padding-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #2c3440;
 }
 
 .login-prompt {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ab;
   margin: 0;
 }
 
 .login-link {
-  color: #667eea;
+  color: #ff8000;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -291,7 +296,7 @@ const goToLogin = () => {
 }
 
 .login-link:hover {
-  color: #764ba2;
+  color: #ffb347;
   text-decoration: underline;
 }
 
@@ -314,51 +319,6 @@ const goToLogin = () => {
 }
 
 @media (prefers-color-scheme: dark) {
-  .register-card {
-    background: #1f2937;
-  }
-
-  .register-title {
-    color: #60a5fa;
-  }
-
-  .register-subtitle {
-    color: #9ca3af;
-  }
-
-  .form-label {
-    color: #d1d5db;
-  }
-
-  .form-input {
-    background: #111827;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .form-input:focus {
-    border-color: #60a5fa;
-    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
-  }
-
-  .form-input:disabled {
-    background: #0f172a;
-  }
-
-  .register-footer {
-    border-top-color: #374151;
-  }
-
-  .login-prompt {
-    color: #9ca3af;
-  }
-
-  .login-link {
-    color: #60a5fa;
-  }
-
-  .login-link:hover {
-    color: #93c5fd;
-  }
+  /* Styles already dark */
 }
 </style>

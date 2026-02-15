@@ -42,9 +42,9 @@ const formatDate = (dateString) => {
 
 <style scoped>
 .friend-event-card {
-  background: white;
+  background: #1a1f29;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   transition: all 0.2s ease;
   display: flex;
@@ -54,13 +54,13 @@ const formatDate = (dateString) => {
   min-width: 190px;
   aspect-ratio: 2 / 3;
   flex-shrink: 0;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2c3440;
 }
 
 .friend-event-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  border-color: #1e3a8a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-color: #ff8000;
 }
 
 .event-image {
@@ -68,7 +68,7 @@ const formatDate = (dateString) => {
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  background: #f3f4f6;
+  background: #2c3440;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,8 +86,8 @@ const formatDate = (dateString) => {
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  background: #f8f9fa;
-  border-bottom: 2px solid #e5e7eb;
+  background: #14181c;
+  border-bottom: 2px solid #2c3440;
   flex-shrink: 0;
 }
 
@@ -96,14 +96,14 @@ const formatDate = (dateString) => {
   height: 24px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 2px solid #2c3440;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .username {
   font-size: 0.688rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   overflow: hidden;
@@ -118,81 +118,37 @@ const formatDate = (dateString) => {
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
-  background: white;
+  background: #1a1f29;
 }
 
 .team {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #cdd;
   text-align: center;
   line-height: 1.3;
 }
 
 .vs {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: #678;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-family: Georgia, 'Times New Roman', serif;
+
 }
 
 .event-date {
   padding: 0.625rem 0.75rem;
   text-align: center;
-  color: #6b7280;
+  color: #9ab;
   font-size: 0.75rem;
   flex-shrink: 0;
-  border-top: 1px solid #e5e7eb;
-  background: #fafbfc;
+  border-top: 1px solid #2c3440;
+  background: #14181c;
   line-height: 1.4;
 }
 
-@media (prefers-color-scheme: dark) {
-  .friend-event-card {
-    background: #1f2937;
-    border-color: #374151;
-  }
 
-  .friend-event-card:hover {
-    border-color: #60a5fa;
-  }
-
-  .event-image {
-    background: #111827;
-  }
-
-  .user-info {
-    background: #111827;
-    border-bottom-color: #374151;
-  }
-
-  .profile-picture {
-    border-color: #374151;
-  }
-
-  .username {
-    color: #60a5fa;
-  }
-
-  .event-teams {
-    background: #1f2937;
-  }
-
-  .team {
-    color: #f9fafb;
-  }
-
-  .vs {
-    color: #6b7280;
-  }
-
-  .event-date {
-    background: #111827;
-    border-top-color: #374151;
-    color: #9ca3af;
-  }
-}
 </style>
 

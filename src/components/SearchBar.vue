@@ -192,17 +192,18 @@ const formatDate = (date) => {
   position: relative;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  background: #2c3440;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   overflow: visible;
   transition: box-shadow 0.3s ease;
   height: 40px;
+  border: 1px solid #445566;
 }
 
 .search-container:focus-within {
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-  background: white;
+  box-shadow: 0 2px 8px rgba(255, 128, 0, 0.3);
+  border-color: #ff8000;
 }
 
 .search-input {
@@ -213,12 +214,12 @@ const formatDate = (date) => {
   font-size: 0.875rem;
   outline: none;
   background: transparent;
-  border-radius: 8px;
-  color: #000000;
+  border-radius: 4px;
+  color: #cdd;
 }
 
 .search-input::placeholder {
-  color: #9ca3af;
+  color: #678;
   font-size: 0.875rem;
 }
 
@@ -226,7 +227,7 @@ const formatDate = (date) => {
   padding: 0.25rem 0.5rem;
   background: transparent;
   border: none;
-  color: #6b7280;
+  color: #9ab;
   cursor: pointer;
   font-size: 1rem;
   transition: color 0.2s ease;
@@ -236,7 +237,7 @@ const formatDate = (date) => {
 }
 
 .clear-button:hover {
-  color: #1e3a8a;
+  color: #ff8000;
 }
 
 .search-button {
@@ -245,25 +246,25 @@ const formatDate = (date) => {
   margin-right: 0.15rem;
   gap: 0.375rem;
   padding: 0.4rem 0.4rem;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   border: none;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
-  border-radius: 8px 8px 8px 8px;
+  border-radius: 4px;
   white-space: nowrap;
   margin-left: 0.5rem;
   margin-right: 0.4rem;
 }
 
 .search-button:hover:not(:disabled) {
-  background: #1e40af;
+  background: #e67700;
 }
 
 .search-button:disabled {
-  background: #9ca3af;
+  background: #445566;
   cursor: not-allowed;
 }
 
@@ -278,18 +279,19 @@ const formatDate = (date) => {
   top: calc(100% + 0.5rem);
   left: 0;
   right: 0;
-  background: white;
+  background: #2c3440;
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   max-height: 350px;
   overflow-y: auto;
   z-index: 1000;
+  border: 1px solid #445566;
 }
 
 .suggestion-item {
   padding: 0.75rem 1rem;
   cursor: pointer;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #445566;
   transition: background 0.2s ease;
 }
 
@@ -299,13 +301,13 @@ const formatDate = (date) => {
 
 .suggestion-item:hover,
 .suggestion-item.selected {
-  background: #eff6ff;
+  background: rgba(255, 128, 0, 0.1);
 }
 
 .suggestion-item.loading,
 .suggestion-item.no-results {
   cursor: default;
-  color: #6b7280;
+  color: #9ab;
   text-align: center;
   font-style: italic;
   font-size: 0.875rem;
@@ -313,7 +315,7 @@ const formatDate = (date) => {
 
 .suggestion-item.loading:hover,
 .suggestion-item.no-results:hover {
-  background: white;
+  background: #2c3440;
 }
 
 .suggestion-content {
@@ -344,30 +346,30 @@ const formatDate = (date) => {
 
 .team-name {
   font-weight: 600;
-  color: #1e3a8a;
+  color: #ff8000;
   font-size: 0.875rem;
 }
 
 .team-short-name {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #9ab;
 }
 
 .suggestion-meta {
   display: flex;
   gap: 0.75rem;
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #678;
   margin-left: 2.5rem;
 }
 
 .competition {
   font-weight: 500;
-  color: #1e40af;
+  color: #ff8000;
 }
 
 .venue {
-  color: #9ca3af;
+  color: #9ab;
 }
 
 @media (max-width: 768px) {

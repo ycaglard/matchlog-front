@@ -274,13 +274,6 @@ const setActiveTab = (tab) => {
               >
                 Match Details
               </button>
-              <button 
-                class="tab-button" 
-                :class="{ active: activeTab === 'statistics' }"
-                @click="setActiveTab('statistics')"
-              >
-                Statistics
-              </button>
             </div>
 
             <div class="tab-content">
@@ -329,13 +322,6 @@ const setActiveTab = (tab) => {
                     <span class="detail-label">Duration</span>
                     <span class="detail-value">{{ match.score.duration }}</span>
                   </div>
-                </div>
-              </div>
-
-              <!-- Statistics Tab -->
-              <div v-show="activeTab === 'statistics'" class="tab-panel">
-                <div class="statistics-placeholder">
-                  <p>Match statistics will be displayed here</p>
                 </div>
               </div>
             </div>
@@ -415,7 +401,7 @@ const setActiveTab = (tab) => {
 <style scoped>
 .match-detail-container {
   min-height: 100vh;
-  background: #f8f9fa;
+  background: #14181c;
 }
 
 .loading-state,
@@ -427,7 +413,7 @@ const setActiveTab = (tab) => {
   justify-content: center;
   min-height: 60vh;
   padding: 2rem;
-  background: white;
+  background: #1a1f29;
   margin: 2rem;
   border-radius: 8px;
 }
@@ -435,8 +421,8 @@ const setActiveTab = (tab) => {
 .spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f3f4f6;
-  border-top-color: #1e3a8a;
+  border: 4px solid #2c3440;
+  border-top-color: #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -448,19 +434,19 @@ const setActiveTab = (tab) => {
 .loading-state p,
 .error-state p {
   margin-top: 1rem;
-  color: #6b7280;
+  color: #9ab;
   font-size: 1.125rem;
 }
 
 .error-state h2,
 .no-match h2 {
-  color: #991b1b;
+  color: #ff8000;
   margin-bottom: 1rem;
 }
 
 .back-button {
   padding: 0.75rem 1.5rem;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -471,12 +457,12 @@ const setActiveTab = (tab) => {
 }
 
 .back-button:hover {
-  background: #1e40af;
+  background: #ff9500;
 }
 
 /* Hero Header */
 .match-hero {
-  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  background: #2c3440;
   color: white;
   padding: 1.5rem 2rem 1rem;
 }
@@ -556,24 +542,24 @@ const setActiveTab = (tab) => {
 }
 
 .status-scheduled {
-  background: rgba(219, 234, 254, 0.95);
-  color: #1e40af;
+  background: rgba(255, 128, 0, 0.15);
+  color: #ff8000;
 }
 
 .status-live {
-  background: rgba(254, 226, 226, 0.95);
-  color: #991b1b;
+  background: rgba(255, 128, 0, 0.2);
+  color: #ff8000;
   animation: pulse 2s infinite;
 }
 
 .status-finished {
-  background: rgba(209, 250, 229, 0.95);
-  color: #065f46;
+  background: rgba(0, 220, 130, 0.15);
+  color: #00dc82;
 }
 
 .status-default {
-  background: rgba(243, 244, 246, 0.95);
-  color: #6b7280;
+  background: rgba(44, 52, 64, 0.95);
+  color: #9ab;
 }
 
 @keyframes pulse {
@@ -583,8 +569,8 @@ const setActiveTab = (tab) => {
 
 /* Score Hero Section */
 .score-hero {
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
+  background: #1a1f29;
+  border-bottom: 1px solid #2c3440;
   padding: 3rem 2rem;
 }
 
@@ -612,7 +598,7 @@ const setActiveTab = (tab) => {
 }
 
 .clickable-team:hover {
-  background: rgba(30, 58, 138, 0.05);
+  background: rgba(255, 128, 0, 0.1);
   transform: translateY(-4px);
 }
 
@@ -621,7 +607,7 @@ const setActiveTab = (tab) => {
 }
 
 .clickable-team:hover .hero-team-name {
-  color: #2563eb;
+  color: #ff8000;
 }
 
 .hero-team-crest {
@@ -634,15 +620,14 @@ const setActiveTab = (tab) => {
 .hero-team-name {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #cdd;
   margin: 0;
   text-align: center;
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .hero-team-label {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #678;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
@@ -659,20 +644,19 @@ const setActiveTab = (tab) => {
 .hero-score {
   font-size: 3.5rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   line-height: 1;
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .hero-halftime {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ab;
   font-weight: 500;
 }
 
 .match-datetime {
   font-size: 0.938rem;
-  color: #4b5563;
+  color: #9ab;
   margin-top: 0.5rem;
   text-align: center;
   line-height: 1.5;
@@ -694,21 +678,22 @@ const setActiveTab = (tab) => {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: rgba(255, 255, 255, 0.95);
-  color: #1e3a8a;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: #ff8000;
+  color: white;
+  border: 2px solid #ff8000;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .add-to-list-btn:hover {
-  background: white;
+  background: #ff9500;
+  border-color: #ff9500;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .add-to-list-btn .btn-icon {
@@ -716,7 +701,7 @@ const setActiveTab = (tab) => {
 }
 
 .add-to-list-btn .badge {
-  background: #42b983;
+  background: #00dc82;
   color: white;
   font-size: 12px;
   font-weight: 700;
@@ -741,8 +726,8 @@ const setActiveTab = (tab) => {
 }
 
 .list-tag {
-  background: rgba(255, 255, 255, 0.9);
-  color: #1e3a8a;
+  background: #2c3440;
+  color: #cdd;
   padding: 4px 10px;
   border-radius: 12px;
   font-size: 13px;
@@ -774,10 +759,10 @@ const setActiveTab = (tab) => {
 }
 
 .content-section {
-  background: white;
+  background: #1a1f29;
   border-radius: 8px;
   padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Section Headers */
@@ -792,23 +777,22 @@ const setActiveTab = (tab) => {
 .section-header h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .comment-count {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #9ab;
   font-weight: 500;
 }
 
 .section-divider {
   flex: 1;
   height: 2px;
-  background: linear-gradient(to right, #1e3a8a, transparent);
+  background: linear-gradient(to right, #ff8000, transparent);
 }
 
 /* Details List */
@@ -821,7 +805,7 @@ const setActiveTab = (tab) => {
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #2c3440;
 }
 
 .detail-row:last-child {
@@ -830,12 +814,12 @@ const setActiveTab = (tab) => {
 
 .detail-label {
   font-weight: 600;
-  color: #4b5563;
+  color: #9ab;
   font-size: 0.938rem;
 }
 
 .detail-value {
-  color: #1f2937;
+  color: #cdd;
   font-size: 0.938rem;
   text-align: right;
 }
@@ -855,8 +839,8 @@ const setActiveTab = (tab) => {
 
 .tabs-navigation {
   display: flex;
-  border-bottom: 2px solid #e5e7eb;
-  background: #f9fafb;
+  border-bottom: 2px solid #2c3440;
+  background: #14181c;
 }
 
 .tab-button {
@@ -866,20 +850,20 @@ const setActiveTab = (tab) => {
   border: none;
   font-size: 1rem;
   font-weight: 600;
-  color: #6b7280;
+  color: #9ab;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
 }
 
 .tab-button:hover {
-  background: rgba(30, 58, 138, 0.05);
-  color: #1e3a8a;
+  background: rgba(255, 128, 0, 0.1);
+  color: #ff8000;
 }
 
 .tab-button.active {
-  color: #1e3a8a;
-  background: white;
+  color: #ff8000;
+  background: #1a1f29;
 }
 
 .tab-button.active::after {
@@ -889,12 +873,12 @@ const setActiveTab = (tab) => {
   left: 0;
   right: 0;
   height: 2px;
-  background: #1e3a8a;
+  background: #ff8000;
 }
 
 .tab-content {
   padding: 2rem;
-  background: white;
+  background: #1a1f29;
   min-height: 300px;
 }
 
@@ -922,22 +906,22 @@ const setActiveTab = (tab) => {
 
 .squad-column {
   padding: 1.5rem;
-  background: #f9fafb;
+  background: #14181c;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2c3440;
 }
 
 .squad-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0 0 1rem 0;
   text-align: center;
 }
 
 .squad-placeholder {
   text-align: center;
-  color: #9ca3af;
+  color: #678;
   padding: 2rem;
   font-size: 0.938rem;
 }
@@ -954,46 +938,47 @@ const setActiveTab = (tab) => {
 .add-comment-area {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: #f9fafb;
+  background: #14181c;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2c3440;
 }
 
 .comment-form-title {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1e3a8a;
+  color: #ff8000;
   margin: 0 0 1rem 0;
 }
 
 .comment-textarea {
   width: 100%;
   padding: 0.875rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid #2c3440;
   border-radius: 6px;
   font-family: inherit;
   font-size: 0.938rem;
   line-height: 1.6;
   resize: vertical;
   transition: border-color 0.2s ease;
-  background: white;
+  background: #1a1f29;
+  color: #cdd;
 }
 
 .comment-textarea:focus {
   outline: none;
-  border-color: #1e3a8a;
+  border-color: #ff8000;
 }
 
 .comment-textarea:disabled {
-  background: #f3f4f6;
+  background: #2c3440;
   cursor: not-allowed;
 }
 
 .comment-error {
   margin-top: 0.75rem;
   padding: 0.75rem;
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(255, 128, 0, 0.1);
+  color: #ff8000;
   border-radius: 6px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -1002,7 +987,7 @@ const setActiveTab = (tab) => {
 .submit-comment-button {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 6px;
@@ -1013,12 +998,12 @@ const setActiveTab = (tab) => {
 }
 
 .submit-comment-button:hover:not(:disabled) {
-  background: #1e40af;
+  background: #ff9500;
   transform: translateY(-1px);
 }
 
 .submit-comment-button:disabled {
-  background: #9ca3af;
+  background: #678;
   cursor: not-allowed;
 }
 
@@ -1032,7 +1017,7 @@ const setActiveTab = (tab) => {
   display: flex;
   gap: 1rem;
   padding: 1rem 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #2c3440;
 }
 
 .comment-item:last-child {
@@ -1043,7 +1028,7 @@ const setActiveTab = (tab) => {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #1e3a8a;
+  background: #ff8000;
   color: white;
   display: flex;
   align-items: center;
@@ -1067,18 +1052,18 @@ const setActiveTab = (tab) => {
 
 .comment-author {
   font-weight: 600;
-  color: #1f2937;
+  color: #cdd;
   font-size: 0.938rem;
 }
 
 .comment-timestamp {
   font-size: 0.813rem;
-  color: #9ca3af;
+  color: #678;
 }
 
 .comment-text {
   margin: 0;
-  color: #4b5563;
+  color: #9ab;
   line-height: 1.6;
   font-size: 0.938rem;
 }
@@ -1086,8 +1071,8 @@ const setActiveTab = (tab) => {
 .comments-empty {
   padding: 3rem 2rem;
   text-align: center;
-  color: #9ca3af;
-  background: #f9fafb;
+  color: #678;
+  background: #14181c;
   border-radius: 6px;
   font-size: 0.938rem;
 }
@@ -1106,16 +1091,16 @@ const setActiveTab = (tab) => {
 }
 
 .sidebar-card {
-  background: white;
+  background: #1a1f29;
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar-title {
   font-size: 0.875rem;
   font-weight: 700;
-  color: #6b7280;
+  color: #9ab;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0 0 1rem 0;
@@ -1132,13 +1117,13 @@ const setActiveTab = (tab) => {
   align-items: center;
   gap: 0.75rem;
   font-size: 0.875rem;
-  color: #4b5563;
+  color: #9ab;
   line-height: 1.5;
 }
 
 .quick-info-item svg {
   flex-shrink: 0;
-  color: #1e3a8a;
+  color: #ff8000;
 }
 
 .competition-card {
@@ -1146,7 +1131,7 @@ const setActiveTab = (tab) => {
   align-items: center;
   justify-content: center;
   padding: 2rem 1.5rem;
-  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  background: #2c3440;
 }
 
 .sidebar-competition-emblem {

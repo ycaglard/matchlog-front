@@ -221,7 +221,7 @@ onMounted(() => {
 .page-header h1 {
   font-size: 32px;
   font-weight: 700;
-  color: #2c3e50;
+  color: #cdd;
   margin: 0;
 }
 
@@ -230,7 +230,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #42b983;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -241,9 +241,9 @@ onMounted(() => {
 }
 
 .create-button:hover {
-  background: #38a374;
+  background: #ff9500;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(66, 185, 131, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 128, 0, 0.3);
 }
 
 .button-icon {
@@ -260,8 +260,8 @@ onMounted(() => {
   width: 50px;
   height: 50px;
   margin: 0 auto 20px;
-  border: 4px solid #e1e8ed;
-  border-top-color: #42b983;
+  border: 4px solid #2c3440;
+  border-top-color: #ff8000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -271,13 +271,13 @@ onMounted(() => {
 }
 
 .error-message {
-  color: #e53e3e;
+  color: #ff8000;
   margin-bottom: 16px;
 }
 
 .retry-button {
   padding: 10px 20px;
-  background: #42b983;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 6px;
@@ -292,8 +292,8 @@ onMounted(() => {
 }
 
 .stat-box {
-  background: white;
-  border: 1px solid #e1e8ed;
+  background: #1a1f29;
+  border: 1px solid #2c3440;
   border-radius: 12px;
   padding: 24px;
   text-align: center;
@@ -302,13 +302,13 @@ onMounted(() => {
 .stat-value {
   font-size: 36px;
   font-weight: 700;
-  color: #42b983;
+  color: #ff8000;
   margin-bottom: 8px;
 }
 
 .stat-label {
   font-size: 14px;
-  color: #657786;
+  color: #9ab;
   font-weight: 500;
 }
 
@@ -320,15 +320,17 @@ onMounted(() => {
 .search-input {
   width: 100%;
   padding: 12px 40px 12px 16px;
-  border: 1px solid #e1e8ed;
+  border: 1px solid #2c3440;
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.2s ease;
+  background: #1a1f29;
+  color: #cdd;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #42b983;
+  border-color: #ff8000;
 }
 
 .clear-button {
@@ -338,7 +340,7 @@ onMounted(() => {
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #657786;
+  color: #9ab;
   font-size: 18px;
   cursor: pointer;
   padding: 4px;
@@ -356,18 +358,18 @@ onMounted(() => {
 
 .empty-state h2 {
   font-size: 24px;
-  color: #2c3e50;
+  color: #cdd;
   margin-bottom: 8px;
 }
 
 .empty-state p {
-  color: #657786;
+  color: #9ab;
   margin-bottom: 24px;
 }
 
 .create-button-large {
   padding: 14px 28px;
-  background: #42b983;
+  background: #ff8000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -378,7 +380,7 @@ onMounted(() => {
 }
 
 .create-button-large:hover {
-  background: #38a374;
+  background: #ff9500;
   transform: translateY(-1px);
 }
 
